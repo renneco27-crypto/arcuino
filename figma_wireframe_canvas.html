@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figma Wireframe Canvas — Blueprint Stage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --figma-bg: #1e1e1e;
+      --figma-canvas-bg: #141416;
+      --figma-panel-bg: #2c2c2e;
+      --figma-border: #38383a;
+      --figma-text: #e0e0e0;
+      --figma-muted: #8e8e93;
+      --figma-blue: #0d99ff;
+      --figma-blue-hover: #007be5;
+      --wire-border: #4a5568;
+      --wire-bg: #1a202c;
+      --wire-line: #2d3748;
+      --wire-accent: #718096;
+      --wire-note: #feebc8;
+      --wire-note-text: #744210;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--figma-canvas-bg);
+      color: var(--figma-text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Figma Bar */
+    header.figma-topbar {
+      height: 48px;
+      background: var(--figma-panel-bg);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .figma-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .figma-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .file-name-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .badge-stage {
+      background: rgba(13, 153, 255, 0.15);
+      border: 1px solid rgba(13, 153, 255, 0.4);
+      color: #38bdf8;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Cross Navigation Hub */
+    .view-switcher-hub {
+      display: flex;
+      align-items: center;
+      background: #1e1e20;
+      border: 1px solid var(--figma-border);
+      border-radius: 6px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .switch-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--figma-muted);
+      transition: all 0.15s ease;
+    }
+
+    .switch-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .switch-link.active {
+      background: var(--figma-panel-bg);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #3a3a3c;
+      padding: 3px 8px 3px 4px;
+      border-radius: 20px;
+      font-size: 11.5px;
+    }
+
+    .user-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #d97706;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    .btn-action {
+      background: var(--figma-blue);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+
+    .btn-action:hover {
+      background: var(--figma-blue-hover);
+    }
+
+    /* Sub Toolbar */
+    .figma-toolbar {
+      height: 40px;
+      background: #242426;
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .tools-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tool-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--figma-muted);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tool-btn:hover {
+      background: #333336;
+      color: #fff;
+    }
+
+    .tool-btn.active {
+      background: #38383c;
+      color: var(--figma-blue);
+    }
+
+    .tool-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--figma-border);
+      margin: 0 4px;
+    }
+
+    .zoom-level {
+      color: var(--figma-muted);
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 8px;
+      background: #1c1c1e;
+      border-radius: 4px;
+    }
+
+    /* Workspace Layout */
+    .workspace-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 88px);
+      position: relative;
+    }
+
+    /* Left Layers Panel */
+    .layers-panel {
+      width: 250px;
+      background: var(--figma-panel-bg);
+      border-right: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .panel-header {
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--figma-muted);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tree-view {
+      overflow-y: auto;
+      flex: 1;
+      padding: 6px 0;
+      font-size: 12px;
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      color: #d1d5db;
+    }
+
+    .tree-item:hover {
+      background: #36363a;
+      color: #fff;
+    }
+
+    .tree-item.selected {
+      background: #0d99ff24;
+      color: #38bdf8;
+      border-left: 2px solid var(--figma-blue);
+    }
+
+    .tree-indent-1 { padding-left: 26px; }
+    .tree-indent-2 { padding-left: 38px; }
+
+    .layer-icon {
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* Central Figma Canvas */
+    .figma-canvas-viewport {
+      flex: 1;
+      overflow: auto;
+      background-color: #121316;
+      background-image: 
+        radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      position: relative;
+      padding: 80px 100px 150px 100px;
+      cursor: default;
+    }
+
+    /* Right Properties Inspector */
+    .properties-panel {
+      width: 270px;
+      background: var(--figma-panel-bg);
+      border-left: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    .prop-section {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--figma-border);
+    }
+
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--figma-muted);
+      margin-bottom: 10px;
+    }
+
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .prop-input {
+      background: #1e1e20;
+      border: 1px solid #3c3c40;
+      color: #fff;
+      font-size: 11.5px;
+      padding: 5px 8px;
+      border-radius: 4px;
+      width: 75px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .prop-label {
+      font-size: 11.5px;
+      color: var(--figma-muted);
+    }
+
+    /* ============================================================
+       CANVAS FRAMES & BLUEPRINTS (WIREFRAME STAGE)
+       ============================================================ */
+
+    .figma-frame-wrapper {
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .frame-title-pill {
+      position: absolute;
+      top: -26px;
+      left: 0;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .frame-title-pill .size-dim {
+      font-size: 10px;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* WIREFRAME STYLES */
+    .wireframe-artboard {
+      background: #181c24;
+      border: 1.5px dashed var(--wire-border);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      border-radius: 4px;
+    }
+
+    .wireframe-artboard::before {
+      content: "WIREFRAME BLUEPRINT (LOW-FIDELITY)";
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #475569;
+      pointer-events: none;
+    }
+
+    /* Measure markers */
+    .measure-badge {
+      position: absolute;
+      background: #ef4444;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      z-index: 5;
+    }
+
+    /* Canvas Frame 1: Banner Header & Hero */
+    .wf-nav {
+      height: 64px;
+      border-bottom: 1.5px dashed var(--wire-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+    }
+
+    .wf-logo-box {
+      width: 140px;
+      height: 28px;
+      border: 1.5px dashed var(--wire-accent);
+      background: #1e2532;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    .wf-nav-items {
+      display: flex;
+      gap: 20px;
+    }
+
+    .wf-nav-bar {
+      width: 60px;
+      height: 10px;
+      background: #2d3748;
+      border-radius: 2px;
+    }
+
+    .wf-nav-btn {
+      width: 100px;
+      height: 32px;
+      border: 1.5px solid var(--wire-border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+
+    /* Hero Section Wireframe */
+    .wf-hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      padding: 50px 40px;
+      align-items: center;
+    }
+
+    .wf-tag-placeholder {
+      width: 180px;
+      height: 22px;
+      border: 1px dashed #64748b;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    .wf-heading-line {
+      height: 38px;
+      background: #2d3748;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .wf-heading-line.short { width: 65%; }
+
+    .wf-text-block {
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wf-para-line {
+      height: 12px;
+      background: #232b38;
+      border-radius: 2px;
+    }
+    .wf-para-line.w90 { width: 90%; }
+    .wf-para-line.w75 { width: 75%; }
+
+    .wf-btn-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .wf-button {
+      height: 44px;
+      padding: 0 24px;
+      border: 1.5px dashed #4a5568;
+      background: #1a202c;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .wf-button.primary {
+      background: #2d3748;
+      border: 1.5px solid #64748b;
+      color: #fff;
+    }
+
+    /* Placeholder Image Box with X diagonals */
+    .wf-image-box {
+      aspect-ratio: 4/3;
+      border: 2px dashed #4b5563;
+      background: #171d27;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+
+    .wf-image-box svg.cross-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      stroke: #334155;
+      stroke-width: 1.5;
+    }
+
+    .wf-image-label {
+      position: relative;
+      z-index: 2;
+      background: #1f2937;
+      border: 1px solid #4b5563;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Sticky Figma Annotations */
+    .figma-sticky-note {
+      position: absolute;
+      width: 220px;
+      background: var(--wire-note);
+      color: var(--wire-note-text);
+      padding: 14px;
+      border-radius: 4px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 500;
+      z-index: 20;
+      transform: rotate(-2deg);
+      border-top: 3px solid #d97706;
+    }
+
+    .figma-sticky-note strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12.5px;
+      color: #92400e;
+    }
+
+    .figma-sticky-blue {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-top: 3px solid #0284c7;
+      transform: rotate(2deg);
+    }
+
+    .figma-sticky-blue strong {
+      color: #075985;
+    }
+
+    /* Frame 2: The Core Concept Comparison Frame */
+    .wf-concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 40px;
+    }
+
+    .wf-card {
+      border: 1.5px dashed var(--wire-border);
+      background: #1a202c;
+      border-radius: 6px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .wf-card.highlight {
+      border-color: #38bdf8;
+      background: #132035;
+    }
+
+    .wf-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wf-circle-num {
+      width: 26px;
+      height: 26px;
+      border: 1.5px solid var(--wire-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .wf-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .wf-card-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .wf-card-meta {
+      border-top: 1px dashed #334155;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .meta-row span:last-child {
+      color: #cbd5e1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+    }
+
+    /* Bottom Status banner */
+    .bottom-status-hud {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 30, 34, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      z-index: 1000;
+      font-size: 12px;
+    }
+
+    .hud-step {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: #94a3b8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .hud-step.active {
+      color: #fff;
+      background: #0284c7;
+      font-weight: 600;
+    }
+
+    .hud-step:hover:not(.active) {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .connector-arrow {
+      color: #475569;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Figma Bar -->
+  <header class="figma-topbar">
+    <div class="top-left">
+      <div class="figma-icon">
+        <svg viewBox="0 0 38 57" fill="none">
+          <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+          <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+          <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+          <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+          <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+        </svg>
+      </div>
+      <div class="file-name-wrapper">
+        <span class="file-name">Friend UI Project / Wireframe Canvas</span>
+        <span class="badge-stage">Phase 1: Skeleton</span>
+      </div>
+    </div>
+
+    <!-- Switcher to navigate all 3 deliverables -->
+    <div class="view-switcher-hub">
+      <a href="figma_wireframe_canvas.html" class="switch-link active">
+        <span>📐</span> 1. Wireframe Canvas
+      </a>
+      <a href="figma_ui_canvas.html" class="switch-link">
+        <span>🎨</span> 2. UI Canvas
+      </a>
+      <a href="portfolio.html" class="switch-link">
+        <span>🌐</span> 3. Final Portfolio
+      </a>
+    </div>
+
+    <div class="top-right">
+      <div class="user-pill">
+        <div class="user-avatar">UI</div>
+        <span>Designer Workspace</span>
+      </div>
+      <a href="figma_ui_canvas.html" class="btn-action">
+        Next: UI Design →
+      </a>
+    </div>
+  </header>
+
+  <!-- Sub-Toolbar -->
+  <div class="figma-toolbar">
+    <div class="tools-group">
+      <button class="tool-btn active" title="Move Tool (V)">↖</button>
+      <button class="tool-btn" title="Frame Tool (F)">#</button>
+      <button class="tool-btn" title="Rectangle Tool (R)">□</button>
+      <button class="tool-btn" title="Pen Tool (P)">✒</button>
+      <button class="tool-btn" title="Text Tool (T)">T</button>
+      <div class="tool-divider"></div>
+      <button class="tool-btn" title="Add Sticky Note (S)">📝</button>
+      <button class="tool-btn" title="Hand Tool (H)">✋</button>
+      <button class="tool-btn" title="Comment (C)">💬</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="color:#64748b; font-size:11px;">Rulers: ON | Grid: 8pt</span>
+      <div class="zoom-level">100%</div>
+    </div>
+  </div>
+
+  <!-- Workspace Body -->
+  <div class="workspace-body">
+    <!-- Left Layers Panel -->
+    <aside class="layers-panel">
+      <div class="panel-header">
+        <span>Layers</span>
+        <span style="font-size:10px; color:#64748b;">Page 1</span>
+      </div>
+      <div class="tree-view">
+        <div class="tree-item selected">
+          <span class="layer-icon">#</span>
+          <span>Hero Banner [1440x820]</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">▤</span>
+          <span>Navbar / Global Navigation</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">▤</span>
+          <span>Hero Content Auto-Layout</span>
+        </div>
+        <div class="tree-item tree-indent-2">
+          <span class="layer-icon">T</span>
+          <span>Headline Blueprint</span>
+        </div>
+        <div class="tree-item tree-indent-2">
+          <span class="layer-icon">T</span>
+          <span>Biography Body Block</span>
+        </div>
+        <div class="tree-item tree-indent-2">
+          <span class="layer-icon">□</span>
+          <span>CTA Buttons Container</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">🖼</span>
+          <span>Placeholder: Drummer Hero</span>
+        </div>
+
+        <div class="tree-item" style="margin-top:10px;">
+          <span class="layer-icon">#</span>
+          <span>Concept Breakdown [1440x600]</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">□</span>
+          <span>Card 1: Wireframe Skeleton</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">□</span>
+          <span>Card 2: UI Visual Skin</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">□</span>
+          <span>Card 3: Portfolio Showcase</span>
+        </div>
+
+        <div class="tree-item" style="margin-top:10px;">
+          <span class="layer-icon">#</span>
+          <span>Project Showcase [1440x700]</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">🖼</span>
+          <span>Placeholder: Psalm 37 Banner</span>
+        </div>
+        <div class="tree-item tree-indent-1">
+          <span class="layer-icon">🖼</span>
+          <span>Placeholder: Camp Live Event</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Figma Canvas Viewport -->
+    <main class="figma-canvas-viewport">
+
+      <!-- Sticky Note 1: Definition of Wireframe -->
+      <div class="figma-sticky-note" style="top: 30px; left: 80px;">
+        <strong>1. Wireframe = Skeleton</strong>
+        Low-fidelity structural blueprint outlining content placement, hierarchy, & user flow.
+        <br><br>
+        • Focus: Functionality & flow<br>
+        • Appearance: Grayscale, placeholders<br>
+        • Stage: Early discovery phase
+      </div>
+
+      <!-- Sticky Note 2: Designer Advice -->
+      <div class="figma-sticky-note figma-sticky-blue" style="top: 30px; right: 100px;">
+        <strong>💡 Key Rule in Wireframing</strong>
+        No final colors, no polished typography, no decorative graphics yet. We solve layout and information priority first!
+      </div>
+
+      <!-- FRAME 1: HERO & BIOGRAPHY BLUEPRINT -->
+      <div class="figma-frame-wrapper" style="width: 1140px; margin: 0 auto 60px auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Hero & Biography Wireframe</span>
+          <span class="size-dim">1140 × 640 px</span>
+        </div>
+
+        <div class="wireframe-artboard" style="min-height: 560px;">
+          <!-- Wireframe Navbar -->
+          <nav class="wf-nav">
+            <div class="wf-logo-box">STUDIO / LOGO</div>
+            <div class="wf-nav-items">
+              <div class="wf-nav-bar"></div>
+              <div class="wf-nav-bar" style="width:75px;"></div>
+              <div class="wf-nav-bar" style="width:90px;"></div>
+              <div class="wf-nav-bar" style="width:50px;"></div>
+            </div>
+            <div class="wf-nav-btn">CONTACT CTA</div>
+          </nav>
+
+          <!-- Wireframe Hero Content -->
+          <div class="wf-hero-grid">
+            <div class="wf-hero-copy">
+              <div class="wf-tag-placeholder">ROLE / UI DESIGNER & ARTIST</div>
+
+              <div class="wf-heading-line"></div>
+              <div class="wf-heading-line short"></div>
+
+              <!-- Biography Text Wireframe -->
+              <div class="wf-text-block">
+                <div style="font-size:11px; color:#64748b; font-family:'JetBrains Mono'; margin-bottom:4px;">
+                  // Biography Block Placeholder (from Chat)
+                </div>
+                <div class="wf-para-line"></div>
+                <div class="wf-para-line w90"></div>
+                <div class="wf-para-line w75"></div>
+                <div class="wf-para-line"></div>
+                <div class="wf-para-line w90"></div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="wf-btn-group">
+                <div class="wf-button primary">VIEW PORTFOLIO WORK</div>
+                <div class="wf-button">EXPLORE UI CANVAS</div>
+              </div>
+            </div>
+
+            <!-- Wireframe Image Box for Drummer Photo -->
+            <div style="position: relative;">
+              <span class="measure-badge" style="top:-14px; right:0;">380 × 285 px</span>
+              <div class="wf-image-box">
+                <svg class="cross-lines" preserveAspectRatio="none" viewBox="0 0 100 100">
+                  <line x1="0" y1="0" x2="100" y2="100" />
+                  <line x1="100" y1="0" x2="0" y2="100" />
+                </svg>
+                <div class="wf-image-label">
+                  📷 Placeholder: Drummer / Stage Photo<br>
+                  <span style="font-size:9.5px; opacity:0.8;">b3238951...jpg (Camp 2026)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 2: THE 3 PILLARS COMPARISON BLUEPRINT -->
+      <div class="figma-frame-wrapper" style="width: 1140px; margin: 0 auto 60px auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Concept Comparison Blueprint</span>
+          <span class="size-dim">1140 × 420 px</span>
+        </div>
+
+        <div class="wireframe-artboard">
+          <div style="padding: 24px 40px 10px 40px; border-bottom: 1px dashed var(--wire-border);">
+            <div style="font-size: 11px; color: #64748b; font-family: 'JetBrains Mono';">SECTION 02 / EDUCATIONAL BREAKDOWN</div>
+            <div style="font-size: 16px; font-weight: 700; color: #f1f5f9; margin-top: 4px;">
+              Difference Between Wireframe, UI Design, and Portfolio
+            </div>
+          </div>
+
+          <div class="wf-concept-grid">
+            <!-- Pillar 1 -->
+            <div class="wf-card highlight">
+              <div class="wf-card-header">
+                <div class="wf-circle-num" style="background:#0284c7; border-color:#38bdf8;">1</div>
+                <div class="wf-card-title">Wireframe</div>
+              </div>
+              <p class="wf-card-desc">
+                The <strong>skeleton</strong> and low-fidelity structural blueprint. Outlines content hierarchy, navigation, and user flow before any styling.
+              </p>
+              <div class="wf-card-meta">
+                <div class="meta-row"><span>Purpose:</span> <span>Structure & Flow</span></div>
+                <div class="meta-row"><span>Stage:</span> <span>Early Discovery</span></div>
+                <div class="meta-row"><span>Focus:</span> <span>Layout & Function</span></div>
+                <div class="meta-row"><span>Output:</span> <span>Grayscale Schematic</span></div>
+              </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="wf-card">
+              <div class="wf-card-header">
+                <div class="wf-circle-num">2</div>
+                <div class="wf-card-title">UI Design</div>
+              </div>
+              <p class="wf-card-desc">
+                The <strong>skin</strong> that transforms wireframes into polished interfaces. Adds brand identity, colors, typography, imagery, and effects.
+              </p>
+              <div class="wf-card-meta">
+                <div class="meta-row"><span>Purpose:</span> <span>Visual Style & Brand</span></div>
+                <div class="meta-row"><span>Stage:</span> <span>Mid / Late Phase</span></div>
+                <div class="meta-row"><span>Focus:</span> <span>Look & Feel</span></div>
+                <div class="meta-row"><span>Output:</span> <span>High-Fidelity Assets</span></div>
+              </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="wf-card">
+              <div class="wf-card-header">
+                <div class="wf-circle-num">3</div>
+                <div class="wf-card-title">Portfolio</div>
+              </div>
+              <p class="wf-card-desc">
+                The <strong>gallery</strong> that showcases your body of work, problem-solving journey, and design results to clients and employers.
+              </p>
+              <div class="wf-card-meta">
+                <div class="meta-row"><span>Purpose:</span> <span>Showcase Past Work</span></div>
+                <div class="meta-row"><span>Stage:</span> <span>Ongoing / Continuous</span></div>
+                <div class="meta-row"><span>Focus:</span> <span>Skills & Case Studies</span></div>
+                <div class="meta-row"><span>Output:</span> <span>Curated Showcase Site</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 3: WORK SHOWCASE BLUEPRINT -->
+      <div class="figma-frame-wrapper" style="width: 1140px; margin: 0 auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Curated Gallery Blueprint</span>
+          <span class="size-dim">1140 × 520 px</span>
+        </div>
+
+        <div class="wireframe-artboard" style="padding: 30px 40px;">
+          <div style="font-size: 11px; color: #64748b; font-family: 'JetBrains Mono'; margin-bottom: 6px;">SECTION 03 / PROJECT WORK SAMPLES</div>
+          <div style="font-size: 15px; font-weight: 700; color: #e2e8f0; margin-bottom: 24px;">
+            Dual Case Studies: Typographic Banner & Live Stage Production
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <!-- Project 1 Placeholder -->
+            <div style="border: 1px dashed #4b5563; padding: 20px; border-radius: 4px; background: #131720;">
+              <div class="wf-image-box" style="height: 220px; margin-bottom: 16px;">
+                <svg class="cross-lines" preserveAspectRatio="none" viewBox="0 0 100 100">
+                  <line x1="0" y1="0" x2="100" y2="100" />
+                  <line x1="100" y1="0" x2="0" y2="100" />
+                </svg>
+                <div class="wf-image-label">
+                  🖼 Placeholder: Gatekeepers Banner<br>
+                  <span style="font-size:9.5px; opacity:0.8;">Psalm 37:32-34 (07de65ea...jpg)</span>
+                </div>
+              </div>
+              <div class="wf-heading-line" style="height: 20px; width: 80%;"></div>
+              <div class="wf-para-line" style="margin-top: 10px;"></div>
+              <div class="wf-para-line w75" style="margin-top: 6px;"></div>
+            </div>
+
+            <!-- Project 2 Placeholder -->
+            <div style="border: 1px dashed #4b5563; padding: 20px; border-radius: 4px; background: #131720;">
+              <div class="wf-image-box" style="height: 220px; margin-bottom: 16px;">
+                <svg class="cross-lines" preserveAspectRatio="none" viewBox="0 0 100 100">
+                  <line x1="0" y1="0" x2="100" y2="100" />
+                  <line x1="100" y1="0" x2="0" y2="100" />
+                </svg>
+                <div class="wf-image-label">
+                  🥁 Placeholder: Live Drummer Experience<br>
+                  <span style="font-size:9.5px; opacity:0.8;">Camp 2026 Stage (b3238951...jpg)</span>
+                </div>
+              </div>
+              <div class="wf-heading-line" style="height: 20px; width: 75%;"></div>
+              <div class="wf-para-line" style="margin-top: 10px;"></div>
+              <div class="wf-para-line w90" style="margin-top: 6px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Properties Inspector -->
+    <aside class="properties-panel">
+      <div class="prop-section">
+        <div class="prop-title">Design Properties</div>
+        <div class="prop-row">
+          <span class="prop-label">Fidelity</span>
+          <span style="color:#38bdf8; font-weight:600;">Low (Wireframe)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Canvas Type</span>
+          <span style="color:#e2e8f0;">Figma Artboard</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Width</span>
+          <input class="prop-input" value="1140 px" readonly>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Height</span>
+          <input class="prop-input" value="Auto" readonly>
+        </div>
+      </div>
+
+      <div class="prop-section">
+        <div class="prop-title">Layout & Constraints</div>
+        <div class="prop-row">
+          <span class="prop-label">Grid</span>
+          <span style="color:#94a3b8;">12-Col (80px gutter)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Border Style</span>
+          <span style="color:#94a3b8;">Dashed (1.5px)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Color Mode</span>
+          <span style="color:#94a3b8;">Monochrome Blueprint</span>
+        </div>
+      </div>
+
+      <div class="prop-section">
+        <div class="prop-title">Design Flow Stages</div>
+        <div style="font-size:11.5px; color:#cbd5e1; line-height:1.6; display:flex; flex-direction:column; gap:8px;">
+          <div style="padding:6px; background:#1e1e24; border-radius:4px; border-left:3px solid #38bdf8;">
+            <strong>Step 1: Wireframe (Current)</strong><br>
+            <span style="color:#94a3b8; font-size:10.5px;">Structure & layout blueprints</span>
+          </div>
+          <div style="padding:6px; background:#1e1e24; border-radius:4px; border-left:3px solid #718096;">
+            <strong>Step 2: UI Design</strong><br>
+            <span style="color:#94a3b8; font-size:10.5px;">Color, paint textures, typography</span>
+          </div>
+          <div style="padding:6px; background:#1e1e24; border-radius:4px; border-left:3px solid #718096;">
+            <strong>Step 3: Live Portfolio</strong><br>
+            <span style="color:#94a3b8; font-size:10.5px;">Interactive client gallery</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-section" style="margin-top:auto;">
+        <div class="prop-title">Deliverables Switcher</div>
+        <a href="figma_ui_canvas.html" style="display:block; text-align:center; padding:9px; background:#0d99ff; color:white; text-decoration:none; border-radius:4px; font-weight:600; font-size:12px; margin-bottom:8px;">
+          Open High-Fi UI Canvas →
+        </a>
+        <a href="portfolio.html" style="display:block; text-align:center; padding:9px; background:#242428; border:1px solid #3c3c40; color:#e0e0e0; text-decoration:none; border-radius:4px; font-size:12px;">
+          View Live Portfolio Site ↗
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Bottom Floating Navigation HUD -->
+  <nav class="bottom-status-hud">
+    <a href="figma_wireframe_canvas.html" class="hud-step active">
+      <div class="hud-dot"></div>
+      <span>1. Wireframe (Skeleton)</span>
+    </a>
+    <span class="connector-arrow">➔</span>
+    <a href="figma_ui_canvas.html" class="hud-step">
+      <div class="hud-dot"></div>
+      <span>2. UI Canvas (Skin)</span>
+    </a>
+    <span class="connector-arrow">➔</span>
+    <a href="portfolio.html" class="hud-step">
+      <div class="hud-dot"></div>
+      <span>3. Live Portfolio (Gallery)</span>
+    </a>
+  </nav>
+
+</body>
+</html>

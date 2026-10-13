@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figma UI Canvas — High-Fidelity Paint Banner Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --figma-bg: #1e1e1e;
+      --figma-canvas-bg: #0f1013;
+      --figma-panel-bg: #252528;
+      --figma-border: #353538;
+      --figma-text: #e2e8f0;
+      --figma-muted: #94a3b8;
+      --figma-blue: #0d99ff;
+      --figma-purple: #a855f7;
+      
+      /* Paint & Banner Theme Variables */
+      --paint-gold: #f59e0b;
+      --paint-gold-light: #fef3c7;
+      --paint-purple: #7e22ce;
+      --paint-magenta: #ec4899;
+      --paint-navy: #0b1120;
+      --paint-card-bg: rgba(22, 27, 46, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--figma-canvas-bg);
+      color: var(--figma-text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Figma Bar */
+    header.figma-topbar {
+      height: 48px;
+      background: var(--figma-panel-bg);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .figma-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .figma-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .file-name-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .badge-stage {
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #c084fc;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Cross Navigation Hub */
+    .view-switcher-hub {
+      display: flex;
+      align-items: center;
+      background: #19191b;
+      border: 1px solid var(--figma-border);
+      border-radius: 6px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .switch-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--figma-muted);
+      transition: all 0.15s ease;
+    }
+
+    .switch-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .switch-link.active {
+      background: #333338;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #36363a;
+      padding: 3px 8px 3px 4px;
+      border-radius: 20px;
+      font-size: 11.5px;
+    }
+
+    .user-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d946ef, #7e22ce);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-action:hover {
+      opacity: 0.92;
+    }
+
+    /* Sub Toolbar */
+    .figma-toolbar {
+      height: 40px;
+      background: #202023;
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .tools-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tool-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--figma-muted);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tool-btn:hover {
+      background: #333338;
+      color: #fff;
+    }
+
+    .tool-btn.active {
+      background: #383840;
+      color: #c084fc;
+    }
+
+    .tool-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--figma-border);
+      margin: 0 4px;
+    }
+
+    .zoom-level {
+      color: #cbd5e1;
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 8px;
+      background: #17171a;
+      border-radius: 4px;
+    }
+
+    /* Workspace Layout */
+    .workspace-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 88px);
+      position: relative;
+    }
+
+    /* Left Design System & Assets Panel */
+    .layers-panel {
+      width: 270px;
+      background: var(--figma-panel-bg);
+      border-right: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    .panel-header {
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--figma-muted);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .color-swatch-list {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-bottom: 1px solid var(--figma-border);
+    }
+
+    .color-swatch-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+    }
+
+    .swatch-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+
+    .swatch-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swatch-name {
+      font-weight: 600;
+      color: #f1f5f9;
+      font-size: 11px;
+    }
+
+    .swatch-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    /* Central Figma Canvas */
+    .figma-canvas-viewport {
+      flex: 1;
+      overflow: auto;
+      background-color: #0c0d10;
+      background-image: 
+        radial-gradient(circle, rgba(168, 85, 247, 0.12) 1px, transparent 1px);
+      background-size: 26px 26px;
+      position: relative;
+      padding: 70px 100px 160px 100px;
+      cursor: default;
+    }
+
+    /* Right Properties Inspector */
+    .properties-panel {
+      width: 280px;
+      background: var(--figma-panel-bg);
+      border-left: 1px solid var(--figma-border);
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    .prop-section {
+      padding: 14px;
+      border-bottom: 1px solid var(--figma-border);
+    }
+
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--figma-muted);
+      margin-bottom: 10px;
+    }
+
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .prop-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #19191d;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #cbd5e1;
+    }
+
+    /* ============================================================
+       CANVAS FRAMES: HIGH-FIDELITY UI (PAINT BANNER STYLE)
+       ============================================================ */
+
+    .figma-frame-wrapper {
+      margin-bottom: 70px;
+      position: relative;
+    }
+
+    .frame-title-pill {
+      position: absolute;
+      top: -28px;
+      left: 0;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #c084fc;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .frame-title-pill .size-dim {
+      font-size: 10px;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* HIGH-FIDELITY ARTBOARD */
+    .ui-artboard {
+      background: radial-gradient(circle at top right, #1e113a, #0b0f19 80%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 8px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(168, 85, 247, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Painted Canvas Texture & Splatters */
+    .paint-splatter-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at 85% 20%, rgba(217, 70, 239, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 10% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+    }
+
+    .brush-ribbon {
+      background: linear-gradient(90deg, #d97706, #f59e0b, #ec4899, #8b5cf6);
+      height: 4px;
+      width: 100%;
+    }
+
+    /* Sticky Figma Annotations */
+    .figma-sticky-note {
+      position: absolute;
+      width: 230px;
+      background: #fdf4ff;
+      color: #701a75;
+      padding: 14px;
+      border-radius: 4px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 500;
+      z-index: 20;
+      transform: rotate(2deg);
+      border-top: 3px solid #d946ef;
+    }
+
+    .figma-sticky-note strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12.5px;
+      color: #86198f;
+    }
+
+    .figma-sticky-gold {
+      background: #fffbeb;
+      color: #92400e;
+      border-top: 3px solid #f59e0b;
+      transform: rotate(-2deg);
+    }
+
+    /* ================= FRAME 1: HERO UI BANNER ================= */
+    .ui-navbar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 5;
+    }
+
+    .ui-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #fef08a, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-icon-brush {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #ec4899, #f59e0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .ui-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
+
+    .ui-nav-links span {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .ui-nav-links span:hover {
+      color: #f59e0b;
+    }
+    .ui-nav-links span.active {
+      color: #fef08a;
+      font-weight: 600;
+    }
+
+    .ui-nav-cta {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #1a0f00;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+      border: 1px solid rgba(254, 240, 138, 0.4);
+      cursor: pointer;
+    }
+
+    /* Hero Section High-Fi */
+    .ui-hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 40px;
+      padding: 50px 40px 60px 40px;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .paint-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .ui-hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .ui-hero-title .paint-accent {
+      background: linear-gradient(135deg, #fef08a, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      font-style: italic;
+    }
+
+    .ui-bio-text {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin-bottom: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 16px 20px;
+      border-radius: 8px;
+      border-left: 3px solid #ec4899;
+    }
+
+    .ui-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .ui-paint-btn-primary {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .ui-paint-btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f1f5f9;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    /* Drummer Hero Visual Card */
+    .ui-visual-frame {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(236, 72, 153, 0.25);
+    }
+
+    .ui-visual-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .ui-visual-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(11, 15, 25, 0.95), rgba(11, 15, 25, 0.2), transparent);
+      padding: 24px 20px 16px 20px;
+    }
+
+    .ui-badge-verse {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #fbbf24;
+      background: rgba(0,0,0,0.6);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .ui-visual-caption {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .ui-visual-sub {
+      font-size: 11.5px;
+      color: #cbd5e1;
+    }
+
+    /* ================= FRAME 2: COMPARISON PILLARS (HIGH-FI) ================= */
+    .ui-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 40px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .ui-pillar-card {
+      background: rgba(18, 22, 36, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 26px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .ui-pillar-card.active-skin {
+      border-color: rgba(236, 72, 153, 0.6);
+      background: rgba(29, 20, 52, 0.85);
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.2);
+    }
+
+    .ui-pillar-card.active-skin::after {
+      content: "CURRENT STAGE: SKIN";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #ec4899;
+      background: rgba(236, 72, 153, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .pillar-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .ui-pillar-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .ui-pillar-desc {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .ui-pillar-specs {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .spec-line {
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+    }
+    .spec-val {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    /* ================= FRAME 3: DUAL CREATIVE BANNER CASE STUDIES ================= */
+    .ui-case-studies-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 40px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .ui-case-card {
+      background: rgba(18, 22, 38, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    .ui-case-preview {
+      height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ui-case-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ui-case-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ui-case-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .ui-case-title {
+      font-family: 'Cinzel', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .ui-case-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* Bottom Status HUD */
+    .bottom-status-hud {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(25, 25, 30, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      z-index: 1000;
+      font-size: 12px;
+    }
+
+    .hud-step {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: #94a3b8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .hud-step.active {
+      color: #fff;
+      background: #9333ea;
+      font-weight: 600;
+    }
+
+    .hud-step:hover:not(.active) {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .connector-arrow {
+      color: #475569;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Figma Bar -->
+  <header class="figma-topbar">
+    <div class="top-left">
+      <div class="figma-icon">
+        <svg viewBox="0 0 38 57" fill="none">
+          <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+          <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+          <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+          <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+          <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+        </svg>
+      </div>
+      <div class="file-name-wrapper">
+        <span class="file-name">Friend UI Project / High-Fi UI Canvas</span>
+        <span class="badge-stage">Phase 2: Skin</span>
+      </div>
+    </div>
+
+    <!-- Switcher to navigate all 3 deliverables -->
+    <div class="view-switcher-hub">
+      <a href="figma_wireframe_canvas.html" class="switch-link">
+        <span>📐</span> 1. Wireframe Canvas
+      </a>
+      <a href="figma_ui_canvas.html" class="switch-link active">
+        <span>🎨</span> 2. UI Canvas
+      </a>
+      <a href="portfolio.html" class="switch-link">
+        <span>🌐</span> 3. Final Portfolio
+      </a>
+    </div>
+
+    <div class="top-right">
+      <div class="user-pill">
+        <div class="user-avatar">UI</div>
+        <span>High-Fidelity Studio</span>
+      </div>
+      <a href="portfolio.html" class="btn-action">
+        Next: View Portfolio Site ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- Sub-Toolbar -->
+  <div class="figma-toolbar">
+    <div class="tools-group">
+      <button class="tool-btn active" title="Move Tool (V)">↖</button>
+      <button class="tool-btn" title="Frame Tool (F)">#</button>
+      <button class="tool-btn" title="Rectangle Tool (R)">□</button>
+      <button class="tool-btn" title="Pen Tool (P)">✒</button>
+      <button class="tool-btn" title="Text Tool (T)">T</button>
+      <div class="tool-divider"></div>
+      <button class="tool-btn" title="Inspect Color Tokens">🎨</button>
+      <button class="tool-btn" title="Brush Effects">🖌</button>
+      <button class="tool-btn" title="Comment (C)">💬</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="color:#a855f7; font-size:11px; font-weight:600;">✨ High-Fidelity Paint System Active</span>
+      <div class="zoom-level">100%</div>
+    </div>
+  </div>
+
+  <!-- Workspace Body -->
+  <div class="workspace-body">
+    <!-- Left Assets & Style Tokens Panel -->
+    <aside class="layers-panel">
+      <div class="panel-header">
+        <span>Design System Tokens</span>
+        <span style="font-size:10px; color:#c084fc;">Paint Kit</span>
+      </div>
+
+      <!-- Color Swatches -->
+      <div class="color-swatch-list">
+        <div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:4px;">
+          Primary Brand Swatches
+        </div>
+
+        <div class="color-swatch-item">
+          <div class="swatch-box" style="background:#0b0f19;"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Midnight Indigo</span>
+            <span class="swatch-hex">#0B0F19</span>
+          </div>
+        </div>
+
+        <div class="color-swatch-item">
+          <div class="swatch-box" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Sacred Gold Foil</span>
+            <span class="swatch-hex">#F59E0B</span>
+          </div>
+        </div>
+
+        <div class="color-swatch-item">
+          <div class="swatch-box" style="background: linear-gradient(135deg, #ec4899, #d946ef);"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Camp Magenta Pulse</span>
+            <span class="swatch-hex">#EC4899</span>
+          </div>
+        </div>
+
+        <div class="color-swatch-item">
+          <div class="swatch-box" style="background: #7e22ce;"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Stage Violet</span>
+            <span class="swatch-hex">#7E22CE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typography Tokens -->
+      <div style="padding:12px 14px; border-bottom: 1px solid var(--figma-border);">
+        <div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:8px;">
+          Typography Tokens
+        </div>
+        <div style="margin-bottom:8px;">
+          <div style="font-family:'Cinzel', serif; font-size:13px; font-weight:700; color:#fff;">Cinzel Display</div>
+          <div style="font-size:10px; color:#94a3b8;">Hero Banners & Titles (Gold Foil)</div>
+        </div>
+        <div>
+          <div style="font-family:'Plus Jakarta Sans', sans-serif; font-size:12px; font-weight:600; color:#fff;">Plus Jakarta Sans</div>
+          <div style="font-size:10px; color:#94a3b8;">Body, Microcopy, Interfaces</div>
+        </div>
+      </div>
+
+      <!-- Components List -->
+      <div style="padding:12px 14px;">
+        <div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:8px;">
+          Component Components
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px; color:#cbd5e1;">
+          <div style="display:flex; align-items:center; gap:6px;">❖ Paint Banner Hero</div>
+          <div style="display:flex; align-items:center; gap:6px;">❖ Glass Verse Ribbon</div>
+          <div style="display:flex; align-items:center; gap:6px;">❖ Gradient Brush Button</div>
+          <div style="display:flex; align-items:center; gap:6px;">❖ Stage Media Card</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Figma Canvas Viewport -->
+    <main class="figma-canvas-viewport">
+
+      <!-- Sticky Note 1: Definition of UI Design -->
+      <div class="figma-sticky-note" style="top: 25px; left: 80px;">
+        <strong>2. UI Design = The Skin</strong>
+        Transforms wireframes into brand-aligned, emotionally resonant visual interfaces.
+        <br><br>
+        • Focus: Colors, typography, imagery & emotion<br>
+        • Appearance: High-fidelity banners, paint textures<br>
+        • Stage: Mid to late design phase
+      </div>
+
+      <!-- Sticky Note 2: Paint Theme Note -->
+      <div class="figma-sticky-note figma-sticky-gold" style="top: 25px; right: 100px;">
+        <strong>🎨 Banner Paint Styling</strong>
+        Infused with sacred gold highlights from the Psalm 37 banner and neon stage lighting from the Camp 2026 drummer production!
+      </div>
+
+      <!-- FRAME 1: HIGH-FIDELITY HERO BANNER ARTBOARD -->
+      <div class="figma-frame-wrapper" style="width: 1140px; margin: 0 auto 60px auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Paint Banner Hero & Biography (High-Fi UI)</span>
+          <span class="size-dim">1140 × 640 px</span>
+        </div>
+
+        <div class="ui-artboard">
+          <div class="brush-ribbon"></div>
+          <div class="paint-splatter-bg"></div>
+
+          <!-- UI Navbar -->
+          <nav class="ui-navbar">
+            <div class="ui-brand-logo">
+              <div class="brand-icon-brush">🖌</div>
+              <span>CANVAS & VERSE STUDIO</span>
+            </div>
+            <div class="ui-nav-links">
+              <span class="active">Home</span>
+              <span>Biography</span>
+              <span>The 3 Pillars</span>
+              <span>Creative Works</span>
+            </div>
+            <div class="ui-nav-cta">
+              Get in Touch ✨
+            </div>
+          </nav>
+
+          <!-- Hero Content -->
+          <div class="ui-hero-grid">
+            <div>
+              <div class="paint-pill-tag">
+                <span>✦</span> Passionate UI Designer & Creative Artist
+              </div>
+
+              <h1 class="ui-hero-title">
+                Designing Clean, Modern &
+                <span class="paint-accent">Visually Captivating</span>
+                Digital Interfaces
+              </h1>
+
+              <!-- Friend's Biography from Prompt -->
+              <p class="ui-bio-text">
+                "Hello! I am a passionate and creative UI (User Interface) Designer who enjoys designing clean, modern, and user-friendly interfaces. I am interested in creating visually appealing designs that provide a smooth and enjoyable experience for users. I continuously develop my skills in UI design, layout, color combinations, typography, and prototyping."
+              </p>
+
+              <!-- CTA Buttons -->
+              <div class="ui-btn-group">
+                <a href="portfolio.html" class="ui-paint-btn-primary">
+                  <span>Explore Live Portfolio</span>
+                  <span>➔</span>
+                </a>
+                <a href="#pillars" class="ui-paint-btn-secondary">
+                  <span>Inspect Design Specs</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Hero Drummer Visual Card (High-Fidelity) -->
+            <div class="ui-visual-frame">
+              <img src="assets/drummer.jpg" alt="Camp 2026 Stage Drummer" class="ui-visual-img">
+              <div class="ui-visual-overlay">
+                <span class="ui-badge-verse">JEREMIAH 29:11-14 • LIVE PRODUCTION</span>
+                <div class="ui-visual-caption">Rise Up: Hearts Ignited, Lives Transformed</div>
+                <div class="ui-visual-sub">Stage Creative & Performance Artistry • Camp 2026 Baybay</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 2: HIGH-FIDELITY CONCEPT BREAKDOWN (SKIN STAGE) -->
+      <div class="figma-frame-wrapper" id="pillars" style="width: 1140px; margin: 0 auto 60px auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Concept Architecture: Skeleton vs Skin vs Gallery</span>
+          <span class="size-dim">1140 × 440 px</span>
+        </div>
+
+        <div class="ui-artboard">
+          <div style="padding: 28px 40px 0 40px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div>
+              <div style="font-family:'JetBrains Mono'; font-size:11px; color:#fbbf24; text-transform:uppercase; letter-spacing:1px;">
+                THE DESIGN SPECTRUM
+              </div>
+              <h2 style="font-family:'Cinzel', serif; font-size:24px; color:#fff; margin-top:4px;">
+                Difference Between Wireframe, UI Design, and Portfolio
+              </h2>
+            </div>
+            <span style="font-size:11.5px; color:#cbd5e1; background:rgba(255,255,255,0.06); padding:4px 10px; border-radius:4px;">
+              Source: MockFlow & Fruto Design Research
+            </span>
+          </div>
+
+          <div class="ui-pillars-grid">
+            <!-- 1. Wireframe -->
+            <div class="ui-pillar-card">
+              <div class="pillar-icon-badge" style="background:rgba(56, 189, 248, 0.15); color:#38bdf8;">
+                📐
+              </div>
+              <h3 class="ui-pillar-title">1. Wireframe</h3>
+              <p class="ui-pillar-desc">
+                <strong>The Skeleton:</strong> Low-fidelity structural blueprint. Outlines content hierarchy, navigation, and user flow before any visual styling.
+              </p>
+              <div class="ui-pillar-specs">
+                <div class="spec-line"><span>Purpose:</span> <span class="spec-val">Plan structure & flow</span></div>
+                <div class="spec-line"><span>Stage:</span> <span class="spec-val">Early design discovery</span></div>
+                <div class="spec-line"><span>Focus:</span> <span class="spec-val">Functionality & layout</span></div>
+                <div class="spec-line"><span>Output:</span> <span class="spec-val">Low-fidelity blueprint</span></div>
+              </div>
+            </div>
+
+            <!-- 2. UI Design (Highlighted) -->
+            <div class="ui-pillar-card active-skin">
+              <div class="pillar-icon-badge" style="background:rgba(236, 72, 153, 0.2); color:#ec4899;">
+                🎨
+              </div>
+              <h3 class="ui-pillar-title" style="color:#fef08a;">2. UI Design</h3>
+              <p class="ui-pillar-desc">
+                <strong>The Skin:</strong> Visual styling stage. Transforms the wireframe with brand-aligned colors, typography, imagery, and paint aesthetics.
+              </p>
+              <div class="ui-pillar-specs">
+                <div class="spec-line"><span>Purpose:</span> <span class="spec-val" style="color:#fef08a;">Add visual style & branding</span></div>
+                <div class="spec-line"><span>Stage:</span> <span class="spec-val">Mid / late design</span></div>
+                <div class="spec-line"><span>Focus:</span> <span class="spec-val">Look, feel & emotion</span></div>
+                <div class="spec-line"><span>Output:</span> <span class="spec-val">High-fidelity visuals</span></div>
+              </div>
+            </div>
+
+            <!-- 3. Portfolio -->
+            <div class="ui-pillar-card">
+              <div class="pillar-icon-badge" style="background:rgba(245, 158, 11, 0.15); color:#f59e0b;">
+                🏛
+              </div>
+              <h3 class="ui-pillar-title">3. Portfolio</h3>
+              <p class="ui-pillar-desc">
+                <strong>The Gallery:</strong> Curated collection of your design work, case studies, and proven results showcasing your skills to employers.
+              </p>
+              <div class="ui-pillar-specs">
+                <div class="spec-line"><span>Purpose:</span> <span class="spec-val">Showcase past work</span></div>
+                <div class="spec-line"><span>Stage:</span> <span class="spec-val">Ongoing evolution</span></div>
+                <div class="spec-line"><span>Focus:</span> <span class="spec-val">Skills & results</span></div>
+                <div class="spec-line"><span>Output:</span> <span class="spec-val">Curated project website</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 3: CURATED PROJECT SHOWCASE (HIGH-FI BANNER STYLE) -->
+      <div class="figma-frame-wrapper" style="width: 1140px; margin: 0 auto;">
+        <div class="frame-title-pill">
+          <span># Frame: Desktop — Curated Project Banner Deliverables</span>
+          <span class="size-dim">1140 × 580 px</span>
+        </div>
+
+        <div class="ui-artboard">
+          <div style="padding: 28px 40px 0 40px;">
+            <div style="font-family:'JetBrains Mono'; font-size:11px; color:#fbbf24; text-transform:uppercase;">
+              CREATIVE WORKS & ASSETS
+            </div>
+            <h2 style="font-family:'Cinzel', serif; font-size:24px; color:#fff; margin-top:4px;">
+              Featured Design Case Studies
+            </h2>
+          </div>
+
+          <div class="ui-case-studies-grid">
+            <!-- Project Card 1: Gatekeepers Ministry Banner -->
+            <div class="ui-case-card">
+              <div class="ui-case-preview">
+                <img src="assets/psalm_banner.jpg" alt="Gatekeepers Psalm 37 Banner" class="ui-case-img">
+              </div>
+              <div class="ui-case-body">
+                <div class="ui-case-tag">MINISTRY TYPOGRAPHY & BANNER ART</div>
+                <h3 class="ui-case-title">Gatekeepers Global Gospel Ministry</h3>
+                <p class="ui-case-desc">
+                  Scriptural visual design featuring <strong>Psalm 37:32–34</strong> with refined gold leaf accents, deep midnight blue atmospheric background, and contemplative typography.
+                </p>
+              </div>
+            </div>
+
+            <!-- Project Card 2: Live Stage & Drumming Experience -->
+            <div class="ui-case-card">
+              <div class="ui-case-preview">
+                <img src="assets/drummer.jpg" alt="Camp 2026 Production" class="ui-case-img">
+              </div>
+              <div class="ui-case-body">
+                <div class="ui-case-tag">LIVE PERFORMANCE & STAGE CREATIVE</div>
+                <h3 class="ui-case-title">Camp 2026: Rise Up Experience</h3>
+                <p class="ui-case-desc">
+                  Dynamic stage production & live drum performance capturing the vibrant rhythm, magenta-violet stage lighting, and the message of Jeremiah 29:11-14.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Properties Inspector -->
+    <aside class="properties-panel">
+      <div class="prop-section">
+        <div class="prop-title">Fidelity & Styling</div>
+        <div class="prop-row">
+          <span class="prop-label">Fidelity</span>
+          <span style="color:#ec4899; font-weight:700;">High-Fidelity UI</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Theme</span>
+          <span style="color:#fbbf24; font-weight:600;">Artistic Paint Banner</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Canvas Mode</span>
+          <span class="prop-badge">Rendered (Skin)</span>
+        </div>
+      </div>
+
+      <div class="prop-section">
+        <div class="prop-title">Visual Effects</div>
+        <div class="prop-row">
+          <span class="prop-label">Backdrop Filter</span>
+          <span class="prop-badge">blur(12px)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Glow Filter</span>
+          <span class="prop-badge">rgba(236,72,153,0.3)</span>
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Border Radii</span>
+          <span class="prop-badge">8px / 12px / 20px</span>
+        </div>
+      </div>
+
+      <div class="prop-section">
+        <div class="prop-title">Design Rule Summary</div>
+        <div style="font-size:11.5px; color:#cbd5e1; line-height:1.6; display:flex; flex-direction:column; gap:8px;">
+          <div style="padding:6px; background:#1c1c22; border-radius:4px; border-left:3px solid #718096;">
+            <strong>Skeleton (Wireframe):</strong><br>
+            <span style="color:#94a3b8; font-size:10.5px;">Structure and user flow</span>
+          </div>
+          <div style="padding:6px; background:#1c1c22; border-radius:4px; border-left:3px solid #ec4899;">
+            <strong>Skin (UI Design - Active):</strong><br>
+            <span style="color:#f472b6; font-size:10.5px;">Aesthetics, colors, branding</span>
+          </div>
+          <div style="padding:6px; background:#1c1c22; border-radius:4px; border-left:3px solid #f59e0b;">
+            <strong>Gallery (Portfolio):</strong><br>
+            <span style="color:#fbbf24; font-size:10.5px;">Case studies proving both</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-section" style="margin-top:auto;">
+        <div class="prop-title">Deliverables Switcher</div>
+        <a href="portfolio.html" style="display:block; text-align:center; padding:10px; background:linear-gradient(135deg, #a855f7, #6366f1); color:white; text-decoration:none; border-radius:5px; font-weight:700; font-size:12.5px; margin-bottom:8px; box-shadow:0 4px 12px rgba(168,85,247,0.3);">
+          Launch Live Portfolio ↗
+        </a>
+        <a href="figma_wireframe_canvas.html" style="display:block; text-align:center; padding:9px; background:#202025; border:1px solid #3c3c42; color:#cbd5e1; text-decoration:none; border-radius:4px; font-size:12px;">
+          ← Back to Wireframe Blueprint
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Bottom Floating Navigation HUD -->
+  <nav class="bottom-status-hud">
+    <a href="figma_wireframe_canvas.html" class="hud-step">
+      <div class="hud-dot"></div>
+      <span>1. Wireframe (Skeleton)</span>
+    </a>
+    <span class="connector-arrow">➔</span>
+    <a href="figma_ui_canvas.html" class="hud-step active">
+      <div class="hud-dot"></div>
+      <span>2. UI Canvas (Skin)</span>
+    </a>
+    <span class="connector-arrow">➔</span>
+    <a href="portfolio.html" class="hud-step">
+      <div class="hud-dot"></div>
+      <span>3. Live Portfolio (Gallery)</span>
+    </a>
+  </nav>
+
+</body>
+</html>

@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Arnie Arcuino — Full-Stack Web Developer based in Brgy Tambulilid, Ormoc City, Leyte. Building modern web experiences from frontend to backend with React, PHP, JavaScript, SQL, and UI/UX design.">
+  <title>Arnie Arcuino | Full-Stack Web Developer</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & COLOR THEME (MATCHING UI_CANVAS.HTML)
+       ========================================================================== */
+    :root {
+      /* Dark Theme (Default) */
+      --bg-base: #090c15;
+      --bg-surface: #101524;
+      --bg-card: rgba(18, 24, 44, 0.78);
+      --bg-card-hover: rgba(26, 34, 60, 0.9);
+      --border-card: rgba(168, 85, 247, 0.22);
+      --border-hover: rgba(245, 158, 11, 0.45);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      /* Vibrant Paint & Glow Palette */
+      --paint-gold: #f59e0b;
+      --paint-gold-light: #fef08a;
+      --paint-gold-glow: rgba(245, 158, 11, 0.35);
+      --paint-magenta: #ec4899;
+      --paint-magenta-glow: rgba(236, 72, 153, 0.35);
+      --paint-purple: #8b5cf6;
+      --paint-violet-deep: #7e22ce;
+      --accent-cyan: #38bdf8;
+      
+      --badge-bg: rgba(245, 158, 11, 0.12);
+      --badge-border: rgba(245, 158, 11, 0.35);
+      --badge-text: #fbbf24;
+      
+      --nav-bg: rgba(9, 12, 21, 0.88);
+      --modal-overlay: rgba(6, 8, 15, 0.88);
+      
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.75);
+      --shadow-magenta-glow: 0 0 35px rgba(236, 72, 153, 0.25);
+      --shadow-gold-glow: 0 0 30px rgba(245, 158, 11, 0.25);
+    }
+
+    [data-theme="light"] {
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-card-hover: #ffffff;
+      --border-card: #e2e8f0;
+      --border-hover: rgba(217, 119, 6, 0.5);
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      
+      --paint-gold: #d97706;
+      --paint-gold-light: #b45309;
+      --paint-gold-glow: rgba(217, 119, 6, 0.15);
+      --paint-magenta: #db2777;
+      --paint-magenta-glow: rgba(219, 39, 119, 0.15);
+      --paint-purple: #7c3aed;
+      --accent-cyan: #0284c7;
+      
+      --badge-bg: #fef3c7;
+      --badge-border: #fde68a;
+      --badge-text: #b45309;
+      
+      --nav-bg: rgba(255, 255, 255, 0.92);
+      --modal-overlay: rgba(15, 23, 42, 0.65);
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+      --shadow-magenta-glow: 0 0 20px rgba(219, 39, 119, 0.12);
+      --shadow-gold-glow: 0 0 20px rgba(217, 119, 6, 0.12);
+    }
+
+    /* ==========================================================================
+       RESET & BASE STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.65;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      position: relative;
+    }
+
+    /* Paint Splatter & Atmosphere Canvas Background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(139, 92, 246, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 88% 28%, rgba(236, 72, 153, 0.14) 0%, transparent 42%),
+        radial-gradient(circle at 50% 75%, rgba(245, 158, 11, 0.11) 0%, transparent 48%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Brush Edge Banner Ribbon */
+    .brush-ribbon-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #d97706, #f59e0b, #ec4899, #8b5cf6, #38bdf8);
+      width: 100%;
+    }
+
+    /* Top Floating View Switcher Pill */
+    .view-switcher-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 1100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .switcher-pill {
+      pointer-events: auto;
+      background: var(--bg-surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-full);
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--shadow-lg), var(--shadow-gold-glow);
+    }
+
+    .switch-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .switch-link:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .switch-link.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #1a0a00;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    }
+
+    /* ==========================================================================
+       A. NAVIGATION BAR
+       ========================================================================== */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-card);
+      transition: all 0.25s ease;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      background: linear-gradient(135deg, #fef08a, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ec4899, #f59e0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.4);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 24px;
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--paint-gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .theme-toggle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--paint-gold);
+      border-color: var(--border-hover);
+    }
+
+    .btn-cta-gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #1a0a00;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+      border: 1px solid rgba(254, 240, 138, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-cta-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-card);
+      padding: 24px;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       B. HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      padding: 80px 0 70px 0;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--paint-gold);
+      box-shadow: 0 0 10px var(--paint-gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.22;
+      margin-bottom: 22px;
+    }
+
+    .hero-title .paint-word {
+      background: linear-gradient(135deg, #fef08a, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      font-style: italic;
+    }
+
+    .hero-description {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 30px;
+      max-width: 580px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .btn-paint-primary {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-paint-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5);
+    }
+
+    .btn-paint-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-paint-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-hover);
+    }
+
+    /* Core Stack Strip */
+    .hero-stack-block {
+      border-top: 1px solid var(--border-card);
+      padding-top: 22px;
+    }
+
+    .stack-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .tech-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tech-pill:hover {
+      border-color: var(--paint-gold);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Drummer Visual Frame */
+    .hero-media-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 2px solid rgba(245, 158, 11, 0.45);
+      box-shadow: var(--shadow-lg), var(--shadow-magenta-glow);
+    }
+
+    .hero-media-img {
+      width: 100%;
+      height: 430px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .hero-media-card:hover .hero-media-img {
+      transform: scale(1.03);
+    }
+
+    .hero-media-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(9, 12, 21, 0.95), rgba(9, 12, 21, 0.45) 60%, transparent);
+      padding: 30px 24px 20px 24px;
+    }
+
+    .media-verse-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #fbbf24;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .media-caption-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .media-caption-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       SECTION COMMON STYLES
+       ========================================================================== */
+    section {
+      padding: 85px 0;
+      border-top: 1px solid var(--border-card);
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-header.centered {
+      text-align: center;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--paint-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .section-heading {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ==========================================================================
+       C. ABOUT ME SECTION
+       ========================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .bio-quote-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-left: 4px solid var(--paint-magenta);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      padding: 32px 34px;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+    }
+
+    .bio-quote-box p {
+      font-size: 15px;
+      color: #e2e8f0;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    [data-theme="light"] .bio-quote-box p {
+      color: #334155;
+    }
+
+    .bio-quote-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-meta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .about-avatar-frame {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid var(--paint-gold);
+      box-shadow: 0 0 20px var(--paint-gold-glow);
+      overflow: hidden;
+      margin: 0 auto 16px auto;
+    }
+
+    .about-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-dev-name {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .about-dev-location {
+      font-size: 12px;
+      color: var(--paint-gold);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .about-details-list {
+      text-align: left;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-card);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .about-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .about-row strong {
+      color: var(--text-main);
+    }
+
+    /* ==========================================================================
+       D. TECHNICAL SKILLS SECTION
+       ========================================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skill-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md), var(--shadow-gold-glow);
+    }
+
+    .skill-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .skill-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--paint-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .skill-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .skill-tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-main);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .skill-tag.core {
+      background: var(--badge-bg);
+      border-color: var(--badge-border);
+      color: var(--badge-text);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       E. FEATURED PROJECTS SECTION (Including Gatekeepers & Drummer Works)
+       ========================================================================== */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 38px;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--border-hover);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-color: #f59e0b;
+      color: #1a0a00;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 32px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-lg), var(--shadow-magenta-glow);
+    }
+
+    .project-cover-box {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      background: #0b0e18;
+    }
+
+    .project-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover .project-cover-img {
+      transform: scale(1.04);
+    }
+
+    .project-cat-pill {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(9, 12, 21, 0.85);
+      border: 1px solid var(--border-card);
+      backdrop-filter: blur(8px);
+      color: var(--paint-gold);
+      font-size: 10.5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-sm);
+    }
+
+    .project-card-body {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .project-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+
+    .project-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .tag-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    .project-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-card);
+      padding-top: 16px;
+    }
+
+    .btn-modal-trigger {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--paint-gold);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-modal-trigger:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal Dialog */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--modal-overlay);
+      backdrop-filter: blur(14px);
+      z-index: 2000;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      padding: 36px;
+      position: relative;
+      box-shadow: var(--shadow-lg), var(--shadow-gold-glow);
+      animation: modalFade 0.25s ease-out;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .modal-section-title {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      color: var(--paint-gold);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    /* ==========================================================================
+       F. SERVICES SECTION (9 SERVICES)
+       ========================================================================== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .service-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--paint-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .service-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ==========================================================================
+       G. DEVELOPMENT PROCESS SECTION
+       ========================================================================== */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+
+    .process-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+
+    .process-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+    }
+
+    .process-step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--paint-gold);
+      background: var(--badge-bg);
+      padding: 2px 7px;
+      border-radius: 4px;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .process-name {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .process-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       H. EDUCATION AND LEARNING
+       ========================================================================== */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+    }
+
+    .edu-badge-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--paint-gold);
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .edu-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .edu-inst {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* ==========================================================================
+       I. CONTACT SECTION
+       ========================================================================== */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(22, 28, 52, 0.9), rgba(12, 16, 28, 0.95));
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 48px;
+      box-shadow: var(--shadow-lg), var(--shadow-gold-glow);
+    }
+
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .contact-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--paint-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .btn-copy-email {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-email:hover {
+      color: var(--paint-gold);
+      border-color: var(--border-hover);
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-base);
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: inherit;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--paint-gold);
+      box-shadow: 0 0 12px var(--paint-gold-glow);
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    /* Toast */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--paint-gold);
+      color: var(--text-main);
+      padding: 12px 22px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 3000;
+      pointer-events: none;
+    }
+
+    .toast-pill.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      border-top: 1px solid var(--border-card);
+      padding: 44px 0 32px 0;
+      background: var(--bg-surface);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .contact-card, .edu-grid {
+        grid-template-columns: 1fr;
+      }
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-menu, .nav-actions .btn-cta-gold {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Ribbon Gradient Edge -->
+  <div class="brush-ribbon-bar"></div>
+
+  <!-- Companion Switcher Pill -->
+  <div class="view-switcher-bar">
+    <div class="switcher-pill">
+      <a href="wireframe.html" class="switch-link">
+        <span>📐</span> Wireframe Graph
+      </a>
+      <a href="ui_canvas.html" class="switch-link">
+        <span>🎨</span> UI Canvas Specs
+      </a>
+      <a href="portfolio.html" class="switch-link active">
+        <span>🌐</span> Live Portfolio
+      </a>
+    </div>
+  </div>
+
+  <!-- A. NAVIGATION BAR -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-logo">
+        <div class="brand-logo-icon">⚡</div>
+        <span>ARNIE ARCUINO</span>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#process" class="nav-link">Process</a></li>
+          <li><a href="#education" class="nav-link">Education</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggle" title="Toggle Theme" aria-label="Toggle theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+        <a href="#contact" class="btn-cta-gold">
+          <span>Let's Talk</span>
+          <span>→</span>
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle Mobile Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="#hero" class="nav-link" onclick="closeMobileMenu()">Home</a>
+      <a href="#about" class="nav-link" onclick="closeMobileMenu()">About</a>
+      <a href="#skills" class="nav-link" onclick="closeMobileMenu()">Skills</a>
+      <a href="#projects" class="nav-link" onclick="closeMobileMenu()">Projects</a>
+      <a href="#services" class="nav-link" onclick="closeMobileMenu()">Services</a>
+      <a href="#process" class="nav-link" onclick="closeMobileMenu()">Process</a>
+      <a href="#education" class="nav-link" onclick="closeMobileMenu()">Education</a>
+      <a href="#contact" class="nav-link" onclick="closeMobileMenu()">Contact</a>
+      <a href="#contact" class="btn-cta-gold" style="justify-content:center;" onclick="closeMobileMenu()">Let's Talk →</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- B. HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-pill-badge">
+              <span class="pulse-dot"></span>
+              <span>Full-Stack Web Developer • Ormoc City, Leyte</span>
+            </div>
+
+            <h1 class="hero-title">
+              Building Modern Web Experiences
+              <span class="paint-word">from Frontend to Backend.</span>
+            </h1>
+
+            <p class="hero-description">
+              I'm <strong>Arnie Arcuino</strong>, a Full-Stack Web Developer focused on building responsive websites, interactive applications, and practical digital solutions using modern web technologies. Based in Brgy Tambulilid, Ormoc City, Leyte.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#projects" class="btn-paint-primary">
+                <span>View My Projects</span>
+                <span>➔</span>
+              </a>
+              <a href="#contact" class="btn-paint-secondary">
+                <span>Contact Me</span>
+              </a>
+            </div>
+
+            <!-- Core Technologies -->
+            <div class="hero-stack-block">
+              <div class="stack-label">Core Technologies</div>
+              <div class="tech-pill-list">
+                <span class="tech-pill">
+                  <span style="color:#e34f26;">●</span> HTML5
+                </span>
+                <span class="tech-pill">
+                  <span style="color:#1572b6;">●</span> CSS3
+                </span>
+                <span class="tech-pill">
+                  <span style="color:#f7df1e;">●</span> JavaScript
+                </span>
+                <span class="tech-pill">
+                  <span style="color:#61dafb;">●</span> React
+                </span>
+                <span class="tech-pill">
+                  <span style="color:#777bb4;">●</span> PHP
+                </span>
+                <span class="tech-pill">
+                  <span style="color:#fbbf24;">●</span> SQL
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Media Card with Arnie's Live Drummer Production Photo -->
+          <div>
+            <div class="hero-media-card">
+              <img src="assets/drummer.jpg" alt="Arnie Arcuino playing drums at Camp 2026 Baybay" class="hero-media-img">
+              <div class="hero-media-overlay">
+                <span class="media-verse-badge">CAMP 2026 • JEREMIAH 29:11-14</span>
+                <div class="media-caption-title">Arnie Arcuino</div>
+                <div class="media-caption-sub">Full-Stack Web Developer &amp; Live Stage Creative • Baybay &amp; Ormoc City, Leyte</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. ABOUT ME SECTION -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Personal Identity &amp; Mindset</div>
+          <h2 class="section-heading">About Me</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="bio-quote-box">
+            <p>
+              <strong>Hello! I am Arnie Arcuino</strong>, a passionate and creative Full-Stack Web Developer and UI designer with a solid Computer Science / IT educational background. Based in Brgy Tambulilid, Ormoc City, Leyte.
+            </p>
+            <p>
+              I continuously develop my skills across frontend and backend web development—from responsive UI architecture, color systems, and modern React prototyping to server-side PHP logic, REST APIs, and relational SQL database modeling. My goal is to build digital products that are not only aesthetically striking but also robust, accessible, and practical.
+            </p>
+            <p>
+              Beyond coding, my creative energy thrives on live musical rhythm and stage production (serving on drums and media at Camp 2026 and community gospel ministries). I believe that good software combines disciplined engineering, simplicity, and user-centered clarity.
+            </p>
+          </div>
+
+          <!-- Profile Snapshot Card -->
+          <div class="about-meta-card">
+            <div class="about-avatar-frame">
+              <img src="assets/drummer.jpg" alt="Arnie Arcuino" class="about-avatar-img">
+            </div>
+            <h3 class="about-dev-name">Arnie Arcuino</h3>
+            <div class="about-dev-location">Brgy Tambulilid, Ormoc City, Leyte</div>
+
+            <div class="about-details-list">
+              <div class="about-row">
+                <span>Role:</span>
+                <strong>Full-Stack Developer</strong>
+              </div>
+              <div class="about-row">
+                <span>Background:</span>
+                <strong>Computer Science / IT</strong>
+              </div>
+              <div class="about-row">
+                <span>Location:</span>
+                <strong>Ormoc City, Leyte</strong>
+              </div>
+              <div class="about-row">
+                <span>Availability:</span>
+                <strong style="color:#22c55e;">Open for Projects</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- D. TECHNICAL SKILLS SECTION -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">Technical Competencies</div>
+          <h2 class="section-heading">Skills &amp; Toolset</h2>
+          <p class="section-subtitle">
+            Organized across 5 functional domains, reflecting hands-on experience in full-stack architecture and system support.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- 1. Frontend Development -->
+          <div class="skill-card">
+            <div class="skill-card-header">
+              <div class="skill-icon-badge">💻</div>
+              <div>
+                <h3 class="skill-card-title">Frontend Development</h3>
+                <span style="font-size:12px; color:var(--text-dim);">UI &amp; Interactivity</span>
+              </div>
+            </div>
+            <div class="skill-tags-wrap">
+              <span class="skill-tag core">HTML5</span>
+              <span class="skill-tag core">CSS3</span>
+              <span class="skill-tag core">JavaScript</span>
+              <span class="skill-tag core">React</span>
+              <span class="skill-tag">Responsive Web Design</span>
+              <span class="skill-tag">Flexbox &amp; Grid</span>
+              <span class="skill-tag">Semantic Web</span>
+            </div>
+          </div>
+
+          <!-- 2. Backend Development -->
+          <div class="skill-card">
+            <div class="skill-card-header">
+              <div class="skill-icon-badge">⚙️</div>
+              <div>
+                <h3 class="skill-card-title">Backend Development</h3>
+                <span style="font-size:12px; color:var(--text-dim);">Server Logic &amp; Architecture</span>
+              </div>
+            </div>
+            <div class="skill-tags-wrap">
+              <span class="skill-tag core">PHP</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Java</span>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">OOP</span>
+            </div>
+          </div>
+
+          <!-- 3. Databases and APIs -->
+          <div class="skill-card">
+            <div class="skill-card-header">
+              <div class="skill-icon-badge">🗄️</div>
+              <div>
+                <h3 class="skill-card-title">Databases &amp; APIs</h3>
+                <span style="font-size:12px; color:var(--text-dim);">Data Modeling &amp; Endpoints</span>
+              </div>
+            </div>
+            <div class="skill-tags-wrap">
+              <span class="skill-tag core">SQL</span>
+              <span class="skill-tag">Database Design</span>
+              <span class="skill-tag">REST APIs</span>
+              <span class="skill-tag">Backend Integration</span>
+              <span class="skill-tag">CRUD Operations</span>
+            </div>
+          </div>
+
+          <!-- 4. Tools and Platforms -->
+          <div class="skill-card">
+            <div class="skill-card-header">
+              <div class="skill-icon-badge">🛠️</div>
+              <div>
+                <h3 class="skill-card-title">Tools &amp; Platforms</h3>
+                <span style="font-size:12px; color:var(--text-dim);">CMS &amp; Version Control</span>
+              </div>
+            </div>
+            <div class="skill-tags-wrap">
+              <span class="skill-tag core">WordPress</span>
+              <span class="skill-tag core">Git &amp; GitHub</span>
+              <span class="skill-tag">VS Code</span>
+              <span class="skill-tag">Browser DevTools</span>
+            </div>
+          </div>
+
+          <!-- 5. Design and IT Support -->
+          <div class="skill-card">
+            <div class="skill-card-header">
+              <div class="skill-icon-badge">🎨</div>
+              <div>
+                <h3 class="skill-card-title">Design &amp; IT Support</h3>
+                <span style="font-size:12px; color:var(--text-dim);">Prototyping &amp; Systems</span>
+              </div>
+            </div>
+            <div class="skill-tags-wrap">
+              <span class="skill-tag core">UI/UX Design</span>
+              <span class="skill-tag">Wireframing &amp; Prototyping</span>
+              <span class="skill-tag">Hardware Troubleshooting</span>
+              <span class="skill-tag">IT Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- E. FEATURED PROJECTS SECTION -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">Practical Proof of Work</div>
+          <h2 class="section-heading">Featured Projects &amp; Case Studies</h2>
+          <p class="section-subtitle">
+            A curated collection of web applications, database tools, and design deliverables including real community media projects.
+          </p>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All Works</button>
+          <button class="filter-btn" data-filter="web-app">Web Applications</button>
+          <button class="filter-btn" data-filter="design">Typographic &amp; Creative Art</button>
+          <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+          <button class="filter-btn" data-filter="database">Databases</button>
+          <button class="filter-btn" data-filter="wordpress">WordPress</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Project 1: Gatekeepers Ministry Psalm 37 Banner -->
+          <div class="project-card" data-category="design">
+            <div class="project-cover-box">
+              <img src="assets/psalm_banner.jpg" alt="Gatekeepers Global Gospel Ministry Psalm 37 Banner" class="project-cover-img">
+              <span class="project-cat-pill">TYPOGRAPHY &amp; MEDIA ART</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">Gatekeepers Ministry Typographic Banner</h3>
+              <p class="project-card-desc">
+                Inspirational visual design featuring <strong>Psalm 37:32–34</strong>. Crafted with warm gold foil typography, deep midnight atmospheric gradients, and contemplative spiritual visual hierarchy.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">Graphic Design</span>
+                <span class="tag-chip">Typography</span>
+                <span class="tag-chip">Gold Palette</span>
+                <span class="tag-chip">Ministry Media</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(1)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[Live Deliverable]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: Camp 2026 Drummer & Live Production -->
+          <div class="project-card" data-category="design">
+            <div class="project-cover-box">
+              <img src="assets/drummer.jpg" alt="Camp 2026 Stage Drummer Experience" class="project-cover-img">
+              <span class="project-cat-pill">LIVE STAGE CREATIVE</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">Camp 2026: Rise Up Stage Production</h3>
+              <p class="project-card-desc">
+                Dynamic live drum performance and visual stage atmosphere capturing <strong>Jeremiah 29:11-14</strong> at Baybay: <em>"Rise Up: Hearts Ignited, Lives Transformed."</em> Integrating musical rhythm with neon stage lighting.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">Stage Production</span>
+                <span class="tag-chip">Live Drumming</span>
+                <span class="tag-chip">Camp 2026</span>
+                <span class="tag-chip">Creative Rhythm</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(2)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[Event Media]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Analytics Dashboard -->
+          <div class="project-card" data-category="web-app">
+            <div class="project-cover-box" style="display:flex; align-items:center; justify-content:center; background:#12182c;">
+              <span style="font-size:48px;">📊</span>
+              <span class="project-cat-pill">WEB APPLICATION</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">[Dynamic Analytics Admin Dashboard]</h3>
+              <p class="project-card-desc">
+                Full-featured responsive admin portal with React interactive data visualizations, secure PHP REST endpoints, and SQL metric aggregation.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">React</span>
+                <span class="tag-chip">PHP</span>
+                <span class="tag-chip">REST API</span>
+                <span class="tag-chip">SQL</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(3)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[GitHub Repo]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4: Full-Stack E-Commerce Storefront -->
+          <div class="project-card" data-category="ecommerce">
+            <div class="project-cover-box" style="display:flex; align-items:center; justify-content:center; background:#181329;">
+              <span style="font-size:48px;">🛒</span>
+              <span class="project-cat-pill">E-COMMERCE</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">[Full-Stack E-Commerce Storefront]</h3>
+              <p class="project-card-desc">
+                Product catalog with category filtering, cart state management, checkout form validation, and relational order logging in SQL.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">JavaScript</span>
+                <span class="tag-chip">PHP</span>
+                <span class="tag-chip">SQL</span>
+                <span class="tag-chip">CSS Grid</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(4)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[GitHub Repo]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 5: Centralized Database Management -->
+          <div class="project-card" data-category="database">
+            <div class="project-cover-box" style="display:flex; align-items:center; justify-content:center; background:#122026;">
+              <span style="font-size:48px;">🗄️</span>
+              <span class="project-cat-pill">DATABASE SYSTEM</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">[Centralized Database Management System]</h3>
+              <p class="project-card-desc">
+                Normalized SQL relational database with PHP backend handling complete CRUD operations, pagination, search queries, and integrity checks.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">PHP</span>
+                <span class="tag-chip">SQL</span>
+                <span class="tag-chip">Database Modeling</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(5)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[GitHub Repo]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 6: Custom WordPress Theme -->
+          <div class="project-card" data-category="wordpress">
+            <div class="project-cover-box" style="display:flex; align-items:center; justify-content:center; background:#161c22;">
+              <span style="font-size:48px;">📰</span>
+              <span class="project-cat-pill">WORDPRESS CMS</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">[Custom WordPress Theme &amp; Portal]</h3>
+              <p class="project-card-desc">
+                Lightweight custom PHP theme built from scratch without page builder bloat. Includes custom post types, custom fields, and mobile optimization.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-chip">WordPress</span>
+                <span class="tag-chip">PHP</span>
+                <span class="tag-chip">CSS3</span>
+              </div>
+              <div class="project-card-footer">
+                <button class="btn-modal-trigger" onclick="openProjectModal(6)">
+                  View Project Case Study →
+                </button>
+                <span style="font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono';">[GitHub Repo]</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F. SERVICES SECTION -->
+    <section id="services">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">Practical Value</div>
+          <h2 class="section-heading">Services I Provide</h2>
+          <p class="section-subtitle">
+            Reliable web development, creative media, and IT support services tailored to clients and small businesses.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🌐</div>
+            <h3 class="service-title">1. Responsive Website Development</h3>
+            <p class="service-desc">Clean, fast-loading, mobile-friendly websites with modern HTML5, CSS3, and JavaScript across all devices.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">⚡</div>
+            <h3 class="service-title">2. Full-Stack Web Applications</h3>
+            <p class="service-desc">Dynamic web applications pairing interactive React frontends with structured PHP backends and databases.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">💻</div>
+            <h3 class="service-title">3. Frontend Development</h3>
+            <p class="service-desc">Translating wireframes and UI designs into accessible, pixel-perfect interfaces with smooth micro-interactions.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🔌</div>
+            <h3 class="service-title">4. Backend &amp; REST API Integration</h3>
+            <p class="service-desc">Server-side logic, secure RESTful endpoints, user authentication routines, and database communication in PHP.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🗄️</div>
+            <h3 class="service-title">5. Database Design &amp; SQL</h3>
+            <p class="service-desc">Relational schema architecture, data normalization, query optimization, and CRUD operations.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">📦</div>
+            <h3 class="service-title">6. WordPress Website Development</h3>
+            <p class="service-desc">Custom theme customization, PHP template architecture, custom fields, and content management setup.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🎨</div>
+            <h3 class="service-title">7. UI/UX Design &amp; Prototyping</h3>
+            <p class="service-desc">Wireframing, user flows, design systems, color swatches, typography pairing, and interactive prototypes.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🔧</div>
+            <h3 class="service-title">8. Website Maintenance &amp; Bug Fixing</h3>
+            <p class="service-desc">Debugging code, troubleshooting broken layouts, updating plugins, and optimizing page load speeds.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🛠️</div>
+            <h3 class="service-title">9. Computer Hardware &amp; IT Support</h3>
+            <p class="service-desc">Hands-on hardware troubleshooting, PC assembly/diagnostics, OS installation, and local IT maintenance in Leyte.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- G. DEVELOPMENT PROCESS SECTION -->
+    <section id="process">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-eyebrow">Disciplined Execution</div>
+          <h2 class="section-heading">My 6-Step Development Workflow</h2>
+          <p class="section-subtitle">
+            A structured method ensuring projects are delivered on time, with maintainable code and verified user satisfaction.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-card">
+            <div class="process-step-num">01</div>
+            <h3 class="process-name">Discovery</h3>
+            <p class="process-desc">Understand requirements, user goals, scope, and technical constraints.</p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-step-num">02</div>
+            <h3 class="process-name">Planning</h3>
+            <p class="process-desc">Map database schemas, component trees, API contracts, and technology choices.</p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-step-num">03</div>
+            <h3 class="process-name">Design</h3>
+            <p class="process-desc">Create structural wireframes, color systems, and UI layout hierarchy.</p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-step-num">04</div>
+            <h3 class="process-name">Development</h3>
+            <p class="process-desc">Write clean frontend React/JS and backend PHP code connected to SQL.</p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-step-num">05</div>
+            <h3 class="process-name">Testing</h3>
+            <p class="process-desc">Verify responsive layouts, validate form inputs, test across browsers.</p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-step-num">06</div>
+            <h3 class="process-name">Delivery</h3>
+            <p class="process-desc">Deploy verified code, deliver documentation, and support handoff.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- H. EDUCATION AND LEARNING -->
+    <section id="education">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Academic &amp; Self-Directed Training</div>
+          <h2 class="section-heading">Education &amp; Foundations</h2>
+        </div>
+
+        <div class="edu-grid">
+          <div class="edu-card">
+            <div class="edu-badge-tag">
+              <span>🎓</span> FORMAL ACADEMIC EDUCATION
+            </div>
+            <h3 class="edu-title">[BS Computer Science / Information Technology]</h3>
+            <div class="edu-inst">[University / College in Leyte] • Ormoc City, Leyte</div>
+            <p style="font-size:13.5px; color:var(--text-muted); line-height:1.7;">
+              Rigorous foundational training covering algorithms, data structures, relational database systems, software engineering principles, and computer hardware networks.
+            </p>
+          </div>
+
+          <div class="edu-card">
+            <div class="edu-badge-tag">
+              <span>🚀</span> SELF-DIRECTED FULL-STACK TRACK
+            </div>
+            <h3 class="edu-title">Independent Full-Stack Specialization</h3>
+            <div class="edu-inst">Self-Directed Learning &amp; Client Projects</div>
+            <p style="font-size:13.5px; color:var(--text-muted); line-height:1.7;">
+              Continuous hands-on specialization in modern React component design, PHP REST APIs, relational SQL schema management, Git workflows, and UI/UX prototyping.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- I. CONTACT SECTION -->
+    <section id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div>
+            <div class="section-eyebrow">Get in Touch</div>
+            <h2 class="section-heading" style="font-size:28px;">Have a project in mind? Let’s build together.</h2>
+            <p style="font-size:14px; color:var(--text-muted); line-height:1.75; margin-bottom:24px;">
+              I am open to freelance website development, full-stack web applications, UI/UX prototyping, and technical IT collaborations. Reach out directly!
+            </p>
+
+            <div class="contact-detail-item">
+              <div class="contact-icon-box">📍</div>
+              <div>
+                <div style="font-size:11px; font-family:'JetBrains Mono'; color:var(--paint-gold); text-transform:uppercase;">Location</div>
+                <div style="font-weight:700; color:#fff;">Brgy Tambulilid, Ormoc City, Leyte</div>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <div class="contact-icon-box">✉️</div>
+              <div>
+                <div style="font-size:11px; font-family:'JetBrains Mono'; color:var(--paint-gold); text-transform:uppercase;">Email Address</div>
+                <div style="font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
+                  <span id="emailText">arnie.arcuino@example.com</span>
+                  <button class="btn-copy-email" onclick="copyEmail()">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <div class="contact-icon-box">💼</div>
+              <div>
+                <div style="font-size:11px; font-family:'JetBrains Mono'; color:var(--paint-gold); text-transform:uppercase;">LinkedIn &amp; GitHub</div>
+                <div style="font-size:13px; color:var(--text-muted);">
+                  [linkedin.com/in/arniearcuino] • [github.com/arniearcuino]
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <form onsubmit="handleContactSubmit(event)">
+            <input type="text" id="nameInput" placeholder="Your Full Name *" class="form-input" required>
+            <input type="email" id="emailInput" placeholder="Your Email Address *" class="form-input" required>
+            <input type="text" id="subjectInput" placeholder="Subject / Project Inquiry *" class="form-input" required>
+            <textarea id="messageInput" placeholder="Tell me about your project, website goals, or timeline..." class="form-input" required></textarea>
+            <button type="submit" class="btn-cta-gold" style="width:100%; justify-content:center; padding:13px; font-size:14px; border:none;">
+              Send Message to Arnie ➔
+            </button>
+            <div id="formMsg" style="margin-top:12px; font-size:13px; display:none; padding:10px 14px; border-radius:6px;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- J. FOOTER -->
+  <footer class="site-footer">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <div style="font-family:'Cinzel', serif; font-weight:800; font-size:16px; color:#fff;">ARNIE ARCUINO</div>
+        <div style="font-size:12px; color:var(--text-dim);">Full-Stack Web Developer • Brgy Tambulilid, Ormoc City, Leyte</div>
+      </div>
+      <div style="font-size:12.5px; color:var(--text-dim); font-family:'JetBrains Mono';">
+        © 2026 Arnie Arcuino. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- PROJECT DETAIL MODAL -->
+  <div class="modal-backdrop" id="projectModal" onclick="handleBackdropClick(event)">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeProjectModal()" aria-label="Close modal">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- TOAST PILL -->
+  <div class="toast-pill" id="toast">
+    Email copied to clipboard!
+  </div>
+
+  <script>
+    // Theme Switcher
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlEl = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      themeIcon.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Mobile Drawer
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    mobileMenuBtn.addEventListener('click', () => mobileDrawer.classList.toggle('open'));
+    function closeMobileMenu() { mobileDrawer.classList.remove('open'); }
+
+    // Project Filtering
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Modal Details
+    const projectDetails = {
+      1: {
+        title: "Gatekeepers Ministry Typographic Banner (Psalm 37:32–34)",
+        category: "Typographic & Media Design",
+        problem: "Creating an emotionally resonant, readable scriptural poster for community ministry reflection, balancing formal biblical authority with modern visual warmth.",
+        solution: "Engineered a high-contrast typographic layout with warm gold foil tones on deep midnight indigo, using subtle prayer/worship imagery in the background and structured serif hierarchy.",
+        tools: ["Adobe Photoshop / Figma", "Typography Theory", "Color Grading", "Sacred Gold Tokens"],
+        deliverable: "Digital presentation graphic & print-ready banner (assets/psalm_banner.jpg)."
+      },
+      2: {
+        title: "Camp 2026: Rise Up Live Stage Production & Drum Performance",
+        category: "Live Production & Creative Rhythm",
+        problem: "Executing high-energy live worship drumming and coordinate stage audio-visual timing for a youth conference with hundreds of attendees at Baybay.",
+        solution: "Delivered live drumming rhythm and assisted in stage lighting synchronization under the theme 'Rise Up: Hearts Ignited, Lives Transformed' (Jeremiah 29:11-14).",
+        tools: ["Pearl Drum Kit & Audio Setup", "Stage Lighting", "Live Performance", "Jeremiah 29:11-14 Theme"],
+        deliverable: "Live stage performance and media assets (assets/drummer.jpg)."
+      },
+      3: {
+        title: "Dynamic Analytics & Admin Dashboard",
+        category: "Web Application",
+        problem: "Companies need a consolidated web application to manage user data, track operational metrics, and view real-time tables without querying databases directly.",
+        solution: "Developed an interactive React frontend with responsive table components, authenticated PHP REST APIs, and structured SQL data queries.",
+        tools: ["React", "PHP", "REST APIs", "SQL Database", "CSS Grid"],
+        deliverable: "Source code repository & interactive dashboard."
+      },
+      4: {
+        title: "Full-Stack E-Commerce Storefront",
+        category: "E-Commerce",
+        problem: "Businesses require a mobile-first product catalog with cart state management and checkout confirmation.",
+        solution: "Coded dynamic JavaScript cart state, calculated subtotals, validated client checkout, and logged orders into SQL via PHP.",
+        tools: ["JavaScript", "PHP", "SQL", "CSS3"],
+        deliverable: "Responsive e-commerce web platform."
+      },
+      5: {
+        title: "Centralized Database Management System",
+        category: "Database System",
+        problem: "Disorganized records causing duplication, slow manual search, and data inconsistency.",
+        solution: "Architected normalized relational SQL tables with prepared PHP statements, multi-column search, and pagination.",
+        tools: ["PHP", "SQL Database", "Bootstrap / CSS"],
+        deliverable: "CRUD management system with exportable reports."
+      },
+      6: {
+        title: "Custom WordPress Theme & Portal",
+        category: "WordPress CMS",
+        problem: "Clients want to update articles independently without reliance on heavy page builders that degrade load speed.",
+        solution: "Built a custom lightweight PHP WordPress theme with custom post types and custom fields.",
+        tools: ["WordPress", "PHP", "CSS3", "ACF"],
+        deliverable: "Custom responsive theme."
+      }
+    };
+
+    function openProjectModal(id) {
+      const p = projectDetails[id];
+      if (!p) return;
+
+      const html = `
+        <div style="font-size:11px; font-family:'JetBrains Mono'; color:var(--paint-gold); text-transform:uppercase; font-weight:700;">
+          ${p.category}
+        </div>
+        <h2 style="font-family:'Cinzel', serif; font-size:22px; font-weight:800; margin:6px 0 16px 0;">${p.title}</h2>
+        
+        <div style="margin-bottom:14px;">
+          <div class="modal-section-title">The Challenge</div>
+          <p style="font-size:13.5px; color:var(--text-muted); line-height:1.7;">${p.problem}</p>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div class="modal-section-title">The Solution & Execution</div>
+          <p style="font-size:13.5px; color:var(--text-muted); line-height:1.7;">${p.solution}</p>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div class="modal-section-title">Tools & Technologies</div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+            ${p.tools.map(t => `<span class="tag-chip" style="color:var(--paint-gold); font-weight:600;">${t}</span>`).join('')}
+          </div>
+        </div>
+
+        <div>
+          <div class="modal-section-title">Deliverable Result</div>
+          <p style="font-size:13.5px; color:var(--text-main);">${p.deliverable}</p>
+        </div>
+      `;
+
+      document.getElementById('modalBody').innerHTML = html;
+      document.getElementById('projectModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'projectModal') closeProjectModal();
+    }
+
+    // Copy Email
+    function copyEmail() {
+      const email = "arnie.arcuino@example.com";
+      navigator.clipboard.writeText(email).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+      });
+    }
+
+    // Contact Form
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const msg = document.getElementById('formMsg');
+      const name = document.getElementById('nameInput').value;
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(34, 197, 94, 0.15)';
+      msg.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+      msg.style.color = '#4ade80';
+      msg.textContent = `Thank you, ${name}! Your message for Arnie Arcuino (Brgy Tambulilid, Ormoc City, Leyte) has been recorded.`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI Canvas Specs — Arnie Arcuino Full-Stack Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090c15;
+      --card-bg: rgba(18, 24, 42, 0.75);
+      --border: rgba(168, 85, 247, 0.25);
+      --paint-gold: #f59e0b;
+      --paint-gold-glow: rgba(245, 158, 11, 0.35);
+      --paint-magenta: #ec4899;
+      --paint-purple: #8b5cf6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 40%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      padding-bottom: 120px;
+      overflow-x: hidden;
+    }
+
+    /* Top Brush Gradient Ribbon */
+    .brush-ribbon {
+      height: 4px;
+      background: linear-gradient(90deg, #d97706, #f59e0b, #ec4899, #8b5cf6, #38bdf8);
+      width: 100%;
+    }
+
+    /* Floating View Switcher Pill */
+    .view-switcher-hub {
+      position: sticky;
+      top: 14px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+      pointer-events: none;
+    }
+
+    .switcher-container {
+      pointer-events: auto;
+      background: rgba(15, 18, 30, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 40px;
+      padding: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(168, 85, 247, 0.2);
+    }
+
+    .switch-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 30px;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .switch-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .switch-btn.active {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Stage Announcement Banner */
+    .ui-stage-banner {
+      background: linear-gradient(135deg, rgba(30, 18, 58, 0.8), rgba(16, 24, 48, 0.9));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 16px;
+      padding: 28px 36px;
+      margin-bottom: 40px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(236, 72, 153, 0.18);
+      border: 1px solid rgba(236, 72, 153, 0.4);
+      color: #f472b6;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stage-title {
+      font-family: 'Cinzel', serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .stage-title span {
+      background: linear-gradient(135deg, #fde047, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stage-desc {
+      font-size: 14.5px;
+      color: #cbd5e1;
+      max-width: 820px;
+      line-height: 1.7;
+    }
+
+    /* Paint Tokens Strip */
+    .paint-tokens-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .token-card {
+      background: rgba(20, 26, 46, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .token-preview {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .token-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .token-val {
+      font-size: 11px;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Rendered Canvas Box */
+    .rendered-canvas-box {
+      background: radial-gradient(circle at top right, rgba(46, 16, 77, 0.7), rgba(11, 15, 25, 0.95) 75%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 50px rgba(168, 85, 247, 0.12);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .rendered-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 44px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .rendered-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fef08a, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .rendered-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 50px;
+      padding: 60px 44px 70px 44px;
+      align-items: center;
+    }
+
+    .rendered-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 18px;
+    }
+
+    .rendered-bio-quote {
+      background: rgba(15, 23, 42, 0.65);
+      border-left: 4px solid #ec4899;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-bottom: 26px;
+      font-size: 14px;
+      line-height: 1.75;
+      color: #e2e8f0;
+    }
+
+    .rendered-visual-frame {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(245, 158, 11, 0.45);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(236, 72, 153, 0.25);
+    }
+
+    .rendered-visual-img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rendered-visual-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(9, 12, 21, 0.95), rgba(9, 12, 21, 0.4) 60%, transparent);
+      padding: 30px 24px 20px 24px;
+    }
+
+    /* Dual Media Showcase Grid */
+    .case-studies-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 50px;
+    }
+
+    .case-card {
+      background: rgba(18, 24, 44, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .case-img-wrap {
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .case-body {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .case-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #fbbf24;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .case-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .case-desc {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .rendered-hero, .case-studies-grid, .paint-tokens-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brush-ribbon"></div>
+
+  <!-- View Switcher -->
+  <div class="view-switcher-hub">
+    <div class="switcher-container">
+      <a href="wireframe.html" class="switch-btn">
+        <span>📐</span> Wireframe Graph
+      </a>
+      <a href="ui_canvas.html" class="switch-btn active">
+        <span>🎨</span> UI Canvas Specs
+      </a>
+      <a href="portfolio.html" class="switch-btn">
+        <span>🌐</span> Live Portfolio
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="ui-stage-banner">
+      <div class="stage-badge">HIGH-FIDELITY DESIGN SPECIFICATION</div>
+      <h1 class="stage-title">Arnie Arcuino — <span>UI Canvas &amp; Color System</span></h1>
+      <p class="stage-desc">
+        Visual design specifications and high-fidelity component system for <strong>Arnie Arcuino</strong>, Full-Stack Web Developer based in Brgy Tambulilid, Ormoc City, Leyte. Infused with sacred gold foil and stage magenta lighting.
+      </p>
+    </div>
+
+    <!-- Design System Swatches -->
+    <div class="paint-tokens-grid">
+      <div class="token-card">
+        <div class="token-preview" style="background:#090c15;"></div>
+        <div>
+          <div class="token-name">Midnight Indigo</div>
+          <div class="token-val">#090C15 (Base Canvas)</div>
+        </div>
+      </div>
+      <div class="token-card">
+        <div class="token-preview" style="background:linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+        <div>
+          <div class="token-name">Sacred Gold Foil</div>
+          <div class="token-val">#F59E0B (Psalm 37 Foil)</div>
+        </div>
+      </div>
+      <div class="token-card">
+        <div class="token-preview" style="background:linear-gradient(135deg, #ec4899, #d946ef);"></div>
+        <div>
+          <div class="token-name">Stage Magenta Glow</div>
+          <div class="token-val">#EC4899 (Camp 2026 Drums)</div>
+        </div>
+      </div>
+      <div class="token-card">
+        <div class="token-preview" style="background:linear-gradient(135deg, #8b5cf6, #6366f1);"></div>
+        <div>
+          <div class="token-name">Celestial Purple</div>
+          <div class="token-val">#8B5CF6 (Accents)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rendered Hero Visual Canvas -->
+    <div class="rendered-canvas-box">
+      <nav class="rendered-nav">
+        <div class="rendered-logo">
+          <span>⚡ ARNIE ARCUINO</span>
+        </div>
+        <div style="font-size:12px; color:#fbbf24; font-family:'JetBrains Mono';">
+          Brgy Tambulilid, Ormoc City, Leyte
+        </div>
+        <a href="portfolio.html" style="background:linear-gradient(135deg, #f59e0b, #d97706); color:#1a0a00; font-weight:800; font-size:12px; padding:8px 18px; border-radius:20px; text-decoration:none;">
+          Open Live Portfolio ➔
+        </a>
+      </nav>
+
+      <div class="rendered-hero">
+        <div>
+          <h2 class="rendered-headline">
+            Building Modern Web Experiences
+            <span style="background:linear-gradient(135deg, #fef08a, #f59e0b, #ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:block;">
+              from Frontend to Backend.
+            </span>
+          </h2>
+
+          <div class="rendered-bio-quote">
+            "Hello! I am Arnie Arcuino, a passionate Full-Stack Web Developer and UI designer from Brgy Tambulilid, Ormoc City, Leyte. I build clean, modern, and user-friendly web experiences with React, PHP, JavaScript, and relational SQL databases."
+          </div>
+
+          <div style="display:flex; gap:14px;">
+            <a href="portfolio.html" style="background:linear-gradient(135deg, #ec4899, #8b5cf6); color:#fff; font-size:13px; font-weight:700; padding:12px 22px; border-radius:8px; text-decoration:none;">
+              Launch Full Portfolio
+            </a>
+            <a href="wireframe.html" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#fff; font-size:13px; font-weight:600; padding:12px 20px; border-radius:8px; text-decoration:none;">
+              Inspect Wireframe Graph
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <div class="rendered-visual-frame">
+            <img src="assets/drummer.jpg" alt="Arnie Arcuino drumming at Camp 2026" class="rendered-visual-img">
+            <div class="rendered-visual-caption">
+              <span style="font-family:'JetBrains Mono'; font-size:10px; color:#fbbf24; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px;">CAMP 2026 BAYBAY</span>
+              <div style="font-family:'Cinzel', serif; font-size:16px; font-weight:800; color:#fff;">Arnie Arcuino</div>
+              <div style="font-size:12px; color:#cbd5e1;">Live Drum Performance &amp; Creative Stage Rhythm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual Case Studies Showcase -->
+    <div class="case-studies-grid">
+      <!-- Media 1: Gatekeepers Ministry Psalm 37 Banner -->
+      <div class="case-card">
+        <div class="case-img-wrap">
+          <img src="assets/psalm_banner.jpg" alt="Gatekeepers Global Gospel Ministry Banner" class="case-img">
+        </div>
+        <div class="case-body">
+          <div class="case-pill">TYPOGRAPHY &amp; MINISTRY MEDIA ART</div>
+          <h3 class="case-title">Gatekeepers Global Gospel Ministry</h3>
+          <p class="case-desc">
+            Visual banner featuring <strong>Psalm 37:32–34</strong> with sacred gold foil typography, deep atmospheric indigo gradients, and devotional hierarchy.
+          </p>
+        </div>
+      </div>
+
+      <!-- Media 2: Camp 2026 Drummer Live Production -->
+      <div class="case-card">
+        <div class="case-img-wrap">
+          <img src="assets/drummer.jpg" alt="Camp 2026 Stage Drummer" class="case-img">
+        </div>
+        <div class="case-body">
+          <div class="case-pill">LIVE STAGE CREATIVE &amp; DRUM PERFORMANCE</div>
+          <h3 class="case-title">Camp 2026: Rise Up Live Stage</h3>
+          <p class="case-desc">
+            High-energy live drum performance and worship production at Baybay. Capturing rhythmic motion, stage lighting, and Jeremiah 29:11-14.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

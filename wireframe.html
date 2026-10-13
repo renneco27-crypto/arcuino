@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Architecture Wireframe Graph — Full-Stack Developer Portfolio</title>
+  <style>
+    /* ==========================================================================
+       FIGMA WIREFRAME BLUEPRINT SYSTEM
+       Pure Structural Wireframe — No Decorative UI, No Gradients, No Brand Styling
+       ========================================================================== */
+    :root {
+      --canvas-bg: #eceef1;
+      --grid-dot: #c9ced6;
+      --wf-bg: #ffffff;
+      --wf-surface: #f8fafc;
+      --wf-border: #94a3b8;
+      --wf-border-light: #cbd5e1;
+      --wf-border-dark: #475569;
+      --wf-text-main: #0f172a;
+      --wf-text-muted: #64748b;
+      --wf-text-subtle: #94a3b8;
+      --wf-placeholder-bg: #f1f5f9;
+      --wf-placeholder-line: #cbd5e1;
+      --wf-line-wire: #94a3b8;
+      --flow-primary: #2563eb;
+      --flow-secondary: #0d9488;
+      --flow-modal: #9333ea;
+      --flow-nav: #ea580c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--canvas-bg);
+      color: var(--wf-text-main);
+      user-select: none;
+    }
+
+    /* Figma Dot Grid Canvas */
+    #viewport {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      background-size: 24px 24px;
+      background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
+    }
+    #viewport.panning {
+      cursor: grabbing;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+
+    /* SVG Connections Layer */
+    #connections-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6000px;
+      height: 6000px;
+      pointer-events: none;
+      z-index: 10;
+      overflow: visible;
+    }
+
+    .connector-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      transition: stroke 0.2s, stroke-width 0.2s, opacity 0.2s;
+    }
+    .connector-path.flow-primary { stroke: var(--flow-primary); }
+    .connector-path.flow-secondary { stroke: var(--flow-secondary); stroke-dasharray: 6 4; }
+    .connector-path.flow-modal { stroke: var(--flow-modal); stroke-dasharray: 4 4; }
+    .connector-path.flow-nav { stroke: var(--flow-nav); }
+
+    .connector-path.highlighted {
+      stroke-width: 4.5 !important;
+      opacity: 1 !important;
+    }
+    .connector-path.dimmed {
+      opacity: 0.15 !important;
+    }
+
+    .flow-label {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      padding: 3px 8px;
+      background: #ffffff;
+      border: 1px solid var(--wf-border);
+      border-radius: 4px;
+      pointer-events: auto;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      white-space: nowrap;
+    }
+
+    /* Top Figma Bar */
+    .figma-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .figma-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .figma-brand .badge {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: ui-monospace, monospace;
+      border: 1px solid #cbd5e1;
+    }
+
+    .figma-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-tool {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #334155;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn-tool:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+    .btn-tool.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    .btn-portfolio-link {
+      background: #0284c7;
+      color: #ffffff;
+      border: 1px solid #0284c7;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-portfolio-link:hover {
+      background: #0369a1;
+    }
+
+    /* Left Drawer / Index Menu */
+    .screens-sidebar {
+      position: fixed;
+      left: 20px;
+      top: 72px;
+      width: 250px;
+      max-height: calc(100vh - 92px);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      z-index: 999;
+      overflow-y: auto;
+    }
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    .screen-nav-item {
+      padding: 7px 10px;
+      font-size: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.1s;
+      margin-bottom: 3px;
+    }
+    .screen-nav-item:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .screen-nav-item .tag {
+      font-family: ui-monospace, monospace;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    /* Legend Overlay */
+    .flow-legend {
+      position: fixed;
+      right: 20px;
+      bottom: 24px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      z-index: 999;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #475569;
+    }
+    .legend-color {
+      width: 18px;
+      height: 3px;
+      border-radius: 2px;
+    }
+    .legend-color.primary { background: var(--flow-primary); }
+    .legend-color.secondary { background: var(--flow-secondary); border-top: 1px dashed #fff; }
+    .legend-color.modal { background: var(--flow-modal); }
+    .legend-color.nav { background: var(--flow-nav); }
+
+    /* Zoom Controls Floating */
+    .zoom-controls {
+      position: fixed;
+      right: 20px;
+      top: 72px;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      z-index: 999;
+    }
+    .zoom-btn {
+      width: 38px;
+      height: 38px;
+      background: #ffffff;
+      border: none;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      transition: background 0.15s;
+    }
+    .zoom-btn:hover { background: #f8fafc; }
+    .zoom-btn:last-child { border-bottom: none; }
+
+    /* ==========================================================================
+       WIREFRAME NODES & ARTBOARDS
+       ========================================================================== */
+    .wf-card {
+      position: absolute;
+      background: var(--wf-bg);
+      border: 1.5px solid var(--wf-border);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      z-index: 20;
+      cursor: default;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .wf-card:hover {
+      border-color: var(--wf-border-dark);
+      box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.12);
+    }
+    .wf-card.selected {
+      border-color: var(--flow-primary);
+      box-shadow: 0 0 0 2px var(--flow-primary), 0 16px 32px -6px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Artboard Header */
+    .wf-header {
+      padding: 10px 14px;
+      background: var(--wf-surface);
+      border-bottom: 1px solid var(--wf-border-light);
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+    }
+    .wf-header-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wf-frame-num {
+      background: #e2e8f0;
+      color: #475569;
+      font-size: 10px;
+      font-family: ui-monospace, monospace;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .wf-header-meta {
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      color: #94a3b8;
+    }
+
+    .wf-body {
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+    }
+
+    /* Image Placeholder Box with Wireframe "X" Diagonal Lines */
+    .wf-image-box {
+      width: 100%;
+      height: 120px;
+      background: var(--wf-placeholder-bg);
+      border: 1px solid var(--wf-border-light);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: var(--wf-text-muted);
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      margin-bottom: 10px;
+    }
+    .wf-image-box::before, .wf-image-box::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+    .wf-image-box::before {
+      background: linear-gradient(to top right, transparent calc(50% - 0.75px), var(--wf-placeholder-line) calc(50% - 0.75px), var(--wf-placeholder-line) calc(50% + 0.75px), transparent calc(50% + 0.75px));
+    }
+    .wf-image-box::after {
+      background: linear-gradient(to bottom right, transparent calc(50% - 0.75px), var(--wf-placeholder-line) calc(50% - 0.75px), var(--wf-placeholder-line) calc(50% + 0.75px), transparent calc(50% + 0.75px));
+    }
+    .wf-image-label {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 3px 8px;
+      border: 1px solid var(--wf-border-light);
+      border-radius: 3px;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    /* Skeleton Text Lines */
+    .wf-line {
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+    .wf-line.w-full { width: 100%; }
+    .wf-line.w-4-5 { width: 80%; }
+    .wf-line.w-3-4 { width: 75%; }
+    .wf-line.w-2-3 { width: 66%; }
+    .wf-line.w-1-2 { width: 50%; }
+    .wf-line.w-1-3 { width: 33%; }
+    .wf-line.w-1-4 { width: 25%; }
+    .wf-line.title {
+      height: 12px;
+      background: #94a3b8;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .wf-line.heading {
+      height: 18px;
+      background: #475569;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    /* Wireframe Buttons */
+    .wf-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      padding: 0 14px;
+      background: #ffffff;
+      border: 1.5px solid var(--wf-border-dark);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wf-text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .wf-btn.primary {
+      background: #334155;
+      color: #ffffff;
+      border-color: #334155;
+    }
+    .wf-btn.dashed {
+      border-style: dashed;
+      color: var(--wf-text-muted);
+    }
+    .wf-btn.small {
+      height: 24px;
+      padding: 0 8px;
+      font-size: 10px;
+    }
+
+    /* Wireframe Input & Form Elements */
+    .wf-input {
+      height: 32px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--wf-border);
+      border-radius: 4px;
+      padding: 0 10px;
+      font-size: 11px;
+      color: var(--wf-text-muted);
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .wf-textarea {
+      height: 60px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--wf-border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--wf-text-muted);
+      margin-bottom: 8px;
+    }
+
+    /* Badges */
+    .wf-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      font-size: 10px;
+      font-family: ui-monospace, monospace;
+      color: #475569;
+    }
+
+    /* Grids & Layout Containers */
+    .wf-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .wf-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .wf-flex-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wf-box {
+      background: #ffffff;
+      border: 1px solid var(--wf-border-light);
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .wf-box.dashed {
+      border: 1px dashed var(--wf-border);
+      background: #fbfcfd;
+    }
+
+    .wf-modal-tag {
+      display: inline-block;
+      font-size: 9px;
+      background: #f5f3ff;
+      color: #7c3aed;
+      border: 1px solid #ddd6fe;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Figma Blueprint Toolbar -->
+  <header class="figma-topbar">
+    <div class="figma-brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="9" y1="3" x2="9" y2="21"/>
+        <line x1="15" y1="3" x2="15" y2="21"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="3" y1="15" x2="21" y2="15"/>
+      </svg>
+      <span>Full-Stack Developer Portfolio — Architecture &amp; Wireframe Graph</span>
+      <span class="badge">FIGMA LOW-FI BLUEPRINT</span>
+    </div>
+
+    <div class="figma-tools">
+      <button class="btn-tool active" id="btn-toggle-all-flows" onclick="toggleFlowFilter('all')">
+        All Connectors
+      </button>
+      <button class="btn-tool" id="btn-toggle-scroll-flows" onclick="toggleFlowFilter('scroll')">
+        Scroll Flow
+      </button>
+      <button class="btn-tool" id="btn-toggle-nav-flows" onclick="toggleFlowFilter('nav')">
+        Nav Routes
+      </button>
+      <button class="btn-tool" id="btn-toggle-modal-flows" onclick="toggleFlowFilter('modals')">
+        Modal Flows
+      </button>
+      <button class="btn-tool" onclick="resetCanvasView()">
+        Fit to Screen (100%)
+      </button>
+      <a href="portfolio.html" class="btn-portfolio-link">
+        🌐 Open Live Portfolio Website ➔
+      </a>
+    </div>
+  </header>
+
+  <!-- Left Screen Index Sidebar -->
+  <aside class="screens-sidebar">
+    <div class="sidebar-title">Screens &amp; Artboards (11)</div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-navbar')">
+      <span>00. Global Navigation</span>
+      <span class="tag">NAVBAR</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-hero')">
+      <span>01. Hero &amp; Stack</span>
+      <span class="tag">HERO</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-about')">
+      <span>02. About &amp; Profile</span>
+      <span class="tag">ABOUT</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-skills')">
+      <span>03. Technical Skills (5 Domains)</span>
+      <span class="tag">SKILLS</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-projects')">
+      <span>04. Featured Project Gallery</span>
+      <span class="tag">PROJECTS</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-modal')">
+      <span>05. Project Detail Modal</span>
+      <span class="tag">MODAL</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-services')">
+      <span>06. Services (9 Offerings)</span>
+      <span class="tag">SERVICES</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-process')">
+      <span>07. 6-Step Workflow</span>
+      <span class="tag">PROCESS</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-education')">
+      <span>08. Education &amp; Training</span>
+      <span class="tag">EDUCATION</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-contact')">
+      <span>09. Contact &amp; Inquiry Form</span>
+      <span class="tag">CONTACT</span>
+    </div>
+    <div class="screen-nav-item" onclick="focusScreen('frame-footer')">
+      <span>10. Global Footer</span>
+      <span class="tag">FOOTER</span>
+    </div>
+  </aside>
+
+  <!-- Floating Canvas Zoom Controls -->
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+    <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+    <button class="zoom-btn" onclick="resetCanvasView()" title="Reset Zoom">⟲</button>
+  </div>
+
+  <!-- Legend Overlay -->
+  <div class="flow-legend">
+    <div style="font-weight: 700; color: #1e293b; margin-bottom: 2px;">User Flow Connectors</div>
+    <div class="legend-item">
+      <div class="legend-color primary"></div>
+      <span>Sequential Page Scroll</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color nav"></div>
+      <span>Navbar Direct Anchor Jumps</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color modal"></div>
+      <span>Interactive Modal &amp; Inquiry Triggers</span>
+    </div>
+  </div>
+
+  <!-- Main Figma Infinite Viewport -->
+  <div id="viewport">
+    <div id="canvas">
+      <!-- SVG Connector Curves Layer -->
+      <svg id="connections-layer">
+        <defs>
+          <marker id="arrow-primary" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#2563eb" />
+          </marker>
+          <marker id="arrow-nav" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#ea580c" />
+          </marker>
+          <marker id="arrow-modal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#9333ea" />
+          </marker>
+        </defs>
+      </svg>
+
+      <!-- ====================================================================
+           FRAME 00: GLOBAL NAVIGATION
+           ==================================================================== -->
+      <div class="wf-card" id="frame-navbar" style="left: 100px; top: 100px; width: 880px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">00</span>
+            <span>FRAME: Global Navigation Bar</span>
+          </div>
+          <span class="wf-header-meta">STICKY HEADER • 880 × 80px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-flex-between">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="wf-badge" style="font-weight:700;">&lt;Arnie Arcuino /&gt;</span>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <span class="wf-badge">[Home]</span>
+              <span class="wf-badge">[About]</span>
+              <span class="wf-badge">[Skills]</span>
+              <span class="wf-badge">[Projects]</span>
+              <span class="wf-badge">[Services]</span>
+              <span class="wf-badge">[Process]</span>
+              <span class="wf-badge">[Education]</span>
+              <span class="wf-badge">[Contact]</span>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span class="wf-badge">[ ◐ Theme ]</span>
+              <span class="wf-btn primary small">[ Let's Talk → ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 01: HERO SECTION
+           ==================================================================== -->
+      <div class="wf-card" id="frame-hero" style="left: 100px; top: 260px; width: 840px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">01</span>
+            <span>FRAME: Hero Section &amp; Core Tech Stack</span>
+          </div>
+          <span class="wf-header-meta">HERO • 840 × 440px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-2">
+            <div>
+              <span class="wf-badge" style="margin-bottom:12px;">[ • AVAILABLE FOR WEB DEV &amp; PROJECTS ]</span>
+              <div class="wf-line heading" style="margin-bottom:6px;"></div>
+              <div style="font-weight:800; font-size:15px; margin-bottom:12px; color:#1e293b;">
+                "Building Modern Web Experiences from Frontend to Backend."
+              </div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-4-5"></div>
+              <div class="wf-line w-3-4" style="margin-bottom:16px;"></div>
+
+              <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <span class="wf-btn primary">[ View My Projects ➔ ]</span>
+                <span class="wf-btn">[ Contact Me ]</span>
+              </div>
+
+              <div style="border-top:1px dashed #cbd5e1; padding-top:12px;">
+                <div style="font-size:10px; font-weight:700; color:#64748b; margin-bottom:6px; font-family:ui-monospace;">CORE TECHNOLOGIES</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <span class="wf-badge">HTML5</span>
+                  <span class="wf-badge">CSS3</span>
+                  <span class="wf-badge">JavaScript</span>
+                  <span class="wf-badge">React</span>
+                  <span class="wf-badge">PHP</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Terminal Mockup Box -->
+            <div>
+              <div class="wf-box dashed" style="background:#f8fafc; font-family:ui-monospace; font-size:11px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">
+                  <span>● ● ● developer.js</span>
+                  <span>[CODE TERMINAL]</span>
+                </div>
+                <div style="color:#64748b; line-height:1.6;">
+                  const developer = {<br>
+                  &nbsp;&nbsp;name: "Arnie Arcuino",<br>
+                  &nbsp;&nbsp;role: "Full-Stack Web Dev",<br>
+                  &nbsp;&nbsp;education: "CS / IT",<br>
+                  &nbsp;&nbsp;skills: ["React", "PHP", "SQL"]<br>
+                  };
+                </div>
+                <div class="wf-image-box" style="height:100px; margin-top:10px;">
+                  <div class="wf-image-label">ABSTRACT TECH / CODE VISUAL PLACEHOLDER</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 02: ABOUT ME & SNAPSHOT
+           ==================================================================== -->
+      <div class="wf-card" id="frame-about" style="left: 1020px; top: 260px; width: 740px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">02</span>
+            <span>FRAME: About Me &amp; Professional Snapshot</span>
+          </div>
+          <span class="wf-header-meta">ABOUT • 740 × 440px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-2">
+            <div>
+              <div class="wf-line title" style="width:120px;"></div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-4-5"></div>
+              <div class="wf-line w-full" style="margin-top:10px;"></div>
+              <div class="wf-line w-3-4"></div>
+
+              <div style="margin-top:18px; border-top:1px dashed #cbd5e1; padding-top:12px;">
+                <div style="display:flex; flex-direction:column; gap:6px; font-size:11px; color:#475569;">
+                  <div>[ ✓ Frontend &amp; Backend Base ]</div>
+                  <div>[ ✓ Database Schema Design &amp; SQL ]</div>
+                  <div>[ ✓ Proactive Self-Taught Mindset ]</div>
+                  <div>[ ✓ User-Centered Problem Solver ]</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Placeholder -->
+            <div class="wf-box" style="text-align:center; padding:18px;">
+              <div style="width:70px; height:70px; border-radius:50%; border:2px dashed #94a3b8; margin:0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-family:ui-monospace; font-weight:700; color:#64748b;">
+                DEV
+              </div>
+              <div style="font-weight:700; font-size:14px;">Arnie Arcuino</div>
+              <div style="font-size:11px; color:#64748b; font-family:ui-monospace; margin-bottom:12px;">Full-Stack Web Developer</div>
+              <div style="border-top:1px dashed #e2e8f0; padding-top:10px; font-size:11px; text-align:left; display:flex; flex-direction:column; gap:6px;">
+                <div class="wf-flex-between"><span>Location:</span> <strong>Brgy Tambulilid, Ormoc City, Leyte</strong></div>
+                <div class="wf-flex-between"><span>Degree:</span> <strong>[BS CS / IT]</strong></div>
+                <div class="wf-flex-between"><span>Status:</span> <strong style="color:#16a34a;">[Available]</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 03: TECHNICAL SKILLS (5 DOMAINS)
+           ==================================================================== -->
+      <div class="wf-card" id="frame-skills" style="left: 100px; top: 780px; width: 840px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">03</span>
+            <span>FRAME: Technical Skills Matrix (Categorized)</span>
+          </div>
+          <span class="wf-header-meta">SKILLS • 840 × 440px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-3" style="margin-bottom:12px;">
+            <!-- Domain 1 -->
+            <div class="wf-box">
+              <div style="font-weight:700; font-size:11.5px; margin-bottom:8px;">💻 Frontend Dev</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                <span class="wf-badge">HTML5</span>
+                <span class="wf-badge">CSS3</span>
+                <span class="wf-badge">JavaScript</span>
+                <span class="wf-badge">React</span>
+                <span class="wf-badge">Responsive</span>
+              </div>
+            </div>
+
+            <!-- Domain 2 -->
+            <div class="wf-box">
+              <div style="font-weight:700; font-size:11.5px; margin-bottom:8px;">⚙️ Backend Dev</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                <span class="wf-badge">PHP</span>
+                <span class="wf-badge">Python</span>
+                <span class="wf-badge">Java</span>
+                <span class="wf-badge">C++</span>
+                <span class="wf-badge">C#</span>
+              </div>
+            </div>
+
+            <!-- Domain 3 -->
+            <div class="wf-box">
+              <div style="font-weight:700; font-size:11.5px; margin-bottom:8px;">🗄️ Databases &amp; APIs</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                <span class="wf-badge">SQL</span>
+                <span class="wf-badge">DB Design</span>
+                <span class="wf-badge">REST APIs</span>
+                <span class="wf-badge">CRUD</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-grid-2">
+            <!-- Domain 4 -->
+            <div class="wf-box">
+              <div style="font-weight:700; font-size:11.5px; margin-bottom:8px;">🛠️ Tools &amp; Platforms</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                <span class="wf-badge">WordPress</span>
+                <span class="wf-badge">Git &amp; GitHub</span>
+                <span class="wf-badge">DevTools</span>
+              </div>
+            </div>
+
+            <!-- Domain 5 -->
+            <div class="wf-box">
+              <div style="font-weight:700; font-size:11.5px; margin-bottom:8px;">🎨 Design &amp; IT Support</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                <span class="wf-badge">UI/UX</span>
+                <span class="wf-badge">Wireframing</span>
+                <span class="wf-badge">Diagnostics</span>
+                <span class="wf-badge">IT Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 04: FEATURED PROJECTS GALLERY
+           ==================================================================== -->
+      <div class="wf-card" id="frame-projects" style="left: 1020px; top: 780px; width: 740px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">04</span>
+            <span>FRAME: Featured Projects (Filterable)</span>
+          </div>
+          <span class="wf-header-meta">PROJECTS • 740 × 440px</span>
+        </div>
+        <div class="wf-body">
+          <!-- Filter Tabs -->
+          <div style="display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap;">
+            <span class="wf-badge" style="background:#334155; color:#fff;">[All]</span>
+            <span class="wf-badge">[Web Apps]</span>
+            <span class="wf-badge">[E-Commerce]</span>
+            <span class="wf-badge">[Business]</span>
+            <span class="wf-badge">[Databases]</span>
+            <span class="wf-badge">[WordPress]</span>
+            <span class="wf-badge">[UI/UX]</span>
+          </div>
+
+          <div class="wf-grid-2">
+            <!-- Project 1 Card -->
+            <div class="wf-box">
+              <div class="wf-image-box" style="height:90px;">
+                <span class="wf-image-label">THUMBNAIL_01: ADMIN DASHBOARD</span>
+              </div>
+              <div style="font-weight:700; font-size:12px; margin-bottom:4px;">[Project: Analytics Dashboard]</div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-3-4" style="margin-bottom:8px;"></div>
+              <div class="wf-flex-between">
+                <span class="wf-btn small primary" onclick="focusScreen('frame-modal')">[ View Modal → ]</span>
+                <span style="font-size:10px; color:#64748b; font-family:ui-monospace;">[Repo]</span>
+              </div>
+            </div>
+
+            <!-- Project 2 Card -->
+            <div class="wf-box">
+              <div class="wf-image-box" style="height:90px;">
+                <span class="wf-image-label">THUMBNAIL_02: E-COMMERCE</span>
+              </div>
+              <div style="font-weight:700; font-size:12px; margin-bottom:4px;">[Project: E-Commerce Storefront]</div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-3-4" style="margin-bottom:8px;"></div>
+              <div class="wf-flex-between">
+                <span class="wf-btn small primary" onclick="focusScreen('frame-modal')">[ View Modal → ]</span>
+                <span style="font-size:10px; color:#64748b; font-family:ui-monospace;">[Repo]</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 05: PROJECT DETAIL MODAL DIALOG
+           ==================================================================== -->
+      <div class="wf-card" id="frame-modal" style="left: 1820px; top: 780px; width: 500px; border-color:#9333ea;">
+        <div class="wf-header" style="background:#faf5ff;">
+          <div class="wf-header-title">
+            <span class="wf-frame-num" style="background:#ede9fe; color:#6b21a8;">05</span>
+            <span style="color:#6b21a8;">MODAL: Project Case Study Dialog</span>
+          </div>
+          <span class="wf-header-meta" style="color:#9333ea;">INTERACTIVE POPUP</span>
+        </div>
+        <div class="wf-body">
+          <span class="wf-modal-tag">MODAL DIALOG POPUP</span>
+          <div style="font-weight:800; font-size:14px; margin-bottom:12px;">[Project Title &amp; Category]</div>
+
+          <div class="wf-box dashed">
+            <strong style="font-size:10px; font-family:ui-monospace; color:#6b21a8;">THE CHALLENGE / PROBLEM</strong>
+            <div class="wf-line w-full" style="margin-top:4px;"></div>
+            <div class="wf-line w-4-5"></div>
+          </div>
+
+          <div class="wf-box dashed">
+            <strong style="font-size:10px; font-family:ui-monospace; color:#6b21a8;">THE SOLUTION &amp; ARCHITECTURE</strong>
+            <div class="wf-line w-full" style="margin-top:4px;"></div>
+            <div class="wf-line w-3-4"></div>
+          </div>
+
+          <div class="wf-box dashed">
+            <strong style="font-size:10px; font-family:ui-monospace; color:#6b21a8;">KEY FEATURES &amp; RESPONSIBILITIES</strong>
+            <div class="wf-line w-full" style="margin-top:4px;"></div>
+            <div class="wf-line w-2-3"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+            <span class="wf-badge">[ Live Demo Link ]</span>
+            <span class="wf-btn small primary">[ Close Modal ✕ ]</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 06: SERVICES OFFERED
+           ==================================================================== -->
+      <div class="wf-card" id="frame-services" style="left: 100px; top: 1300px; width: 840px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">06</span>
+            <span>FRAME: Services &amp; Value Offerings (9 Cards)</span>
+          </div>
+          <span class="wf-header-meta">SERVICES • 840 × 400px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-3">
+            <div class="wf-box">
+              <strong>1. Responsive Web Dev</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>2. Full-Stack Web Apps</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>3. Frontend Development</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>4. Backend &amp; REST APIs</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>5. Database Design &amp; SQL</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>6. WordPress Sites</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>7. UI/UX Implementation</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>8. Maintenance &amp; Fixes</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+            <div class="wf-box">
+              <strong>9. Hardware &amp; IT Support</strong>
+              <div class="wf-line w-full" style="margin-top:4px;"></div>
+              <div class="wf-line w-3-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 07: DEVELOPMENT PROCESS (6 PHASES)
+           ==================================================================== -->
+      <div class="wf-card" id="frame-process" style="left: 1020px; top: 1300px; width: 740px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">07</span>
+            <span>FRAME: 6-Step Development Workflow</span>
+          </div>
+          <span class="wf-header-meta">PROCESS • 740 × 300px</span>
+        </div>
+        <div class="wf-body">
+          <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:8px;">
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">01</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Discovery</div>
+              <div class="wf-line w-full"></div>
+            </div>
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">02</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Planning</div>
+              <div class="wf-line w-full"></div>
+            </div>
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">03</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Design</div>
+              <div class="wf-line w-full"></div>
+            </div>
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">04</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Development</div>
+              <div class="wf-line w-full"></div>
+            </div>
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">05</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Testing</div>
+              <div class="wf-line w-full"></div>
+            </div>
+            <div class="wf-box" style="text-align:center;">
+              <span class="wf-badge">06</span>
+              <div style="font-weight:700; font-size:11px; margin:4px 0;">Delivery</div>
+              <div class="wf-line w-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 08: EDUCATION & LEARNING
+           ==================================================================== -->
+      <div class="wf-card" id="frame-education" style="left: 100px; top: 1760px; width: 640px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">08</span>
+            <span>FRAME: Education &amp; Continuous Learning</span>
+          </div>
+          <span class="wf-header-meta">EDUCATION • 640 × 340px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-2">
+            <div class="wf-box">
+              <span class="wf-badge">🎓 ACADEMIC</span>
+              <div style="font-weight:700; font-size:12px; margin:6px 0;">[BS CS / IT Placeholder]</div>
+              <div style="font-size:11px; color:#64748b; margin-bottom:8px;">[University Placeholder]</div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-4-5"></div>
+            </div>
+
+            <div class="wf-box">
+              <span class="wf-badge">🚀 SELF-TAUGHT</span>
+              <div style="font-weight:700; font-size:12px; margin:6px 0;">[Full-Stack Specialization]</div>
+              <div style="font-size:11px; color:#64748b; margin-bottom:8px;">[Hands-on Project Track]</div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-4-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 09: CONTACT & INQUIRY FORM
+           ==================================================================== -->
+      <div class="wf-card" id="frame-contact" style="left: 800px; top: 1760px; width: 680px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">09</span>
+            <span>FRAME: Contact &amp; Inquiry Form</span>
+          </div>
+          <span class="wf-header-meta">CONTACT • 680 × 340px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-grid-2">
+            <div>
+              <div style="font-weight:800; font-size:13px; margin-bottom:6px;">"Have a project in mind? Let's build."</div>
+              <div class="wf-line w-full"></div>
+              <div class="wf-line w-4-5" style="margin-bottom:14px;"></div>
+              <div style="display:flex; flex-direction:column; gap:8px; font-size:11px; color:#475569;">
+                <div>✉ Email: [your.email@example.com]</div>
+                <div>💼 LinkedIn: [linkedin.com/in/yourprofile]</div>
+                <div>🐙 GitHub: [github.com/yourusername]</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="wf-input">[ Name Input * ]</div>
+              <div class="wf-input">[ Email Input * ]</div>
+              <div class="wf-input">[ Subject Input * ]</div>
+              <div class="wf-textarea">[ Message Textarea * ]</div>
+              <span class="wf-btn primary small" style="width:100%;">[ Send Message ➔ ]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           FRAME 10: GLOBAL FOOTER
+           ==================================================================== -->
+      <div class="wf-card" id="frame-footer" style="left: 100px; top: 2160px; width: 880px;">
+        <div class="wf-header">
+          <div class="wf-header-title">
+            <span class="wf-frame-num">10</span>
+            <span>FRAME: Global Footer</span>
+          </div>
+          <span class="wf-header-meta">FOOTER • 880 × 70px</span>
+        </div>
+        <div class="wf-body">
+          <div class="wf-flex-between">
+            <div style="font-size:11px; color:#64748b; font-family:ui-monospace;">
+              © 2026 Arnie Arcuino. All rights reserved.
+            </div>
+            <div style="display:flex; gap:10px; font-size:11px;">
+              <span class="wf-badge">[Home]</span>
+              <span class="wf-badge">[About]</span>
+              <span class="wf-badge">[Skills]</span>
+              <span class="wf-badge">[Projects]</span>
+              <span class="wf-badge">[Services]</span>
+              <span class="wf-badge">[Contact]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       REAL-TIME GRAPH CONNECTOR & PAN/ZOOM ENGINE JAVASCRIPT
+       ========================================================================== */ -->
+  <script>
+    const viewport = document.getElementById('viewport');
+    const canvas = document.getElementById('canvas');
+    const svgLayer = document.getElementById('connections-layer');
+
+    let scale = 0.78;
+    let panX = 140;
+    let panY = 70;
+    let isPanning = false;
+    let startX = 0;
+    let startY = 0;
+    let activeFilter = 'all';
+
+    function updateTransform() {
+      canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+    }
+    updateTransform();
+
+    // Pan viewport
+    viewport.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.wf-card') || e.target.closest('.flow-label')) return;
+      isPanning = true;
+      viewport.classList.add('panning');
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      updateTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      isPanning = false;
+      viewport.classList.remove('panning');
+    });
+
+    // Zoom viewport
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = 1.08;
+      const rect = viewport.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      let newScale = e.deltaY < 0 ? scale * zoomFactor : scale / zoomFactor;
+      newScale = Math.min(Math.max(0.25, newScale), 2.2);
+
+      panX = mouseX - (mouseX - panX) * (newScale / scale);
+      panY = mouseY - (mouseY - panY) * (newScale / scale);
+      scale = newScale;
+
+      updateTransform();
+    }, { passive: false });
+
+    function zoomIn() {
+      scale = Math.min(scale * 1.2, 2.2);
+      updateTransform();
+    }
+
+    function zoomOut() {
+      scale = Math.max(scale / 1.2, 0.25);
+      updateTransform();
+    }
+
+    function resetCanvasView() {
+      scale = 0.68;
+      panX = 160;
+      panY = 60;
+      updateTransform();
+    }
+
+    // Focus screen
+    function focusScreen(frameId) {
+      const el = document.getElementById(frameId);
+      if (!el) return;
+
+      document.querySelectorAll('.wf-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+
+      const cardLeft = parseFloat(el.style.left);
+      const cardTop = parseFloat(el.style.top);
+      const cardWidth = el.offsetWidth;
+      const cardHeight = el.offsetHeight;
+
+      const viewW = window.innerWidth;
+      const viewH = window.innerHeight;
+
+      scale = 0.95;
+      panX = (viewW / 2) - (cardLeft + cardWidth / 2) * scale;
+      panY = (viewH / 2) - (cardTop + cardHeight / 2) * scale;
+
+      updateTransform();
+    }
+
+    // Draggable Artboards
+    let draggedCard = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    document.querySelectorAll('.wf-header').forEach(header => {
+      header.addEventListener('mousedown', (e) => {
+        draggedCard = header.closest('.wf-card');
+        const cardRect = draggedCard.getBoundingClientRect();
+        dragOffsetX = (e.clientX - cardRect.left) / scale;
+        dragOffsetY = (e.clientY - cardRect.top) / scale;
+        draggedCard.style.zIndex = 50;
+        e.stopPropagation();
+      });
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!draggedCard) return;
+      const canvasRect = canvas.getBoundingClientRect();
+      const newLeft = (e.clientX - canvasRect.left) / scale - dragOffsetX;
+      const newTop = (e.clientY - canvasRect.top) / scale - dragOffsetY;
+
+      draggedCard.style.left = `${Math.round(newLeft)}px`;
+      draggedCard.style.top = `${Math.round(newTop)}px`;
+
+      renderAllConnectors();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (draggedCard) {
+        draggedCard.style.zIndex = 20;
+        draggedCard = null;
+        renderAllConnectors();
+      }
+    });
+
+    // Connector Paths
+    const CONNECTIONS = [
+      // 1. Primary Page Scroll Hierarchy
+      { from: 'frame-navbar', to: 'frame-hero', type: 'flow-primary', label: 'Scroll Top / Initial View', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-hero', to: 'frame-about', type: 'flow-primary', label: 'Scroll &rarr; About Profile', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-about', to: 'frame-skills', type: 'flow-primary', label: 'Skills Hierarchy', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-skills', to: 'frame-projects', type: 'flow-primary', label: 'Practical Proof', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-projects', to: 'frame-services', type: 'flow-primary', label: 'Client Offerings', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-services', to: 'frame-process', type: 'flow-primary', label: 'Workflow Rigor', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-process', to: 'frame-education', type: 'flow-primary', label: 'Academic Base', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-education', to: 'frame-contact', type: 'flow-primary', label: 'Call To Action', marker: 'arrow-primary', category: 'scroll' },
+      { from: 'frame-contact', to: 'frame-footer', type: 'flow-primary', label: 'Page Close', marker: 'arrow-primary', category: 'scroll' },
+
+      // 2. Navigation Routing & Direct Anchor Jumps
+      { from: 'frame-navbar', to: 'frame-skills', type: 'flow-nav', label: 'Anchor #skills', marker: 'arrow-nav', category: 'nav' },
+      { from: 'frame-navbar', to: 'frame-projects', type: 'flow-nav', label: 'Anchor #projects', marker: 'arrow-nav', category: 'nav' },
+      { from: 'frame-navbar', to: 'frame-contact', type: 'flow-nav', label: 'CTA Let\'s Talk', marker: 'arrow-nav', category: 'nav' },
+
+      // 3. Project Detail & Modal Interactive Flows
+      { from: 'frame-projects', to: 'frame-modal', type: 'flow-modal', label: 'Card Click &rarr; Modal Details', marker: 'arrow-modal', category: 'modals' }
+    ];
+
+    function getAnchorPoint(el, position) {
+      const left = parseFloat(el.style.left);
+      const top = parseFloat(el.style.top);
+      const width = el.offsetWidth;
+      const height = el.offsetHeight;
+
+      switch (position) {
+        case 'top': return { x: left + width / 2, y: top };
+        case 'bottom': return { x: left + width / 2, y: top + height };
+        case 'left': return { x: left, y: top + height / 2 };
+        case 'right': return { x: left + width, y: top + height / 2 };
+        default: return { x: left + width / 2, y: top + height / 2 };
+      }
+    }
+
+    function determineBestAnchors(fromEl, toEl) {
+      const fromLeft = parseFloat(fromEl.style.left);
+      const fromTop = parseFloat(fromEl.style.top);
+      const toLeft = parseFloat(toEl.style.left);
+      const toTop = parseFloat(toEl.style.top);
+
+      if (toLeft > fromLeft + fromEl.offsetWidth - 40) {
+        return { fromPos: 'right', toPos: 'left' };
+      }
+      if (toTop > fromTop + fromEl.offsetHeight - 40) {
+        return { fromPos: 'bottom', toPos: 'top' };
+      }
+      if (toTop < fromTop - 40) {
+        return { fromPos: 'top', toPos: 'bottom' };
+      }
+      return { fromPos: 'right', toPos: 'left' };
+    }
+
+    function renderAllConnectors() {
+      const existing = svgLayer.querySelectorAll('.connector-path, .flow-label-container');
+      existing.forEach(e => e.remove());
+
+      CONNECTIONS.forEach((conn, index) => {
+        const fromEl = document.getElementById(conn.from);
+        const toEl = document.getElementById(conn.to);
+        if (!fromEl || !toEl) return;
+
+        const { fromPos, toPos } = determineBestAnchors(fromEl, toEl);
+        const p1 = getAnchorPoint(fromEl, fromPos);
+        const p2 = getAnchorPoint(toEl, toPos);
+
+        const dx = Math.abs(p2.x - p1.x);
+        const dy = Math.abs(p2.y - p1.y);
+
+        let cp1x = p1.x;
+        let cp1y = p1.y;
+        let cp2x = p2.x;
+        let cp2y = p2.y;
+
+        if (fromPos === 'bottom') cp1y += Math.max(dy * 0.5, 40);
+        if (fromPos === 'top') cp1y -= Math.max(dy * 0.5, 40);
+        if (fromPos === 'right') cp1x += Math.max(dx * 0.5, 40);
+        if (fromPos === 'left') cp1x -= Math.max(dx * 0.5, 40);
+
+        if (toPos === 'top') cp2y -= Math.max(dy * 0.5, 40);
+        if (toPos === 'bottom') cp2y += Math.max(dy * 0.5, 40);
+        if (toPos === 'left') cp2x -= Math.max(dx * 0.5, 40);
+        if (toPos === 'right') cp2x += Math.max(dx * 0.5, 40);
+
+        const d = `M ${p1.x} ${p1.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('class', `connector-path ${conn.type}`);
+        path.setAttribute('marker-end', `url(#${conn.marker})`);
+        path.setAttribute('id', `conn-${index}`);
+        path.dataset.category = conn.category;
+
+        if (activeFilter !== 'all' && conn.category !== activeFilter) {
+          path.classList.add('dimmed');
+        }
+
+        svgLayer.appendChild(path);
+
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2;
+
+        const foreign = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        foreign.setAttribute('x', midX - 90);
+        foreign.setAttribute('y', midY - 14);
+        foreign.setAttribute('width', '180');
+        foreign.setAttribute('height', '30');
+        foreign.setAttribute('class', 'flow-label-container');
+        foreign.style.overflow = 'visible';
+
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'flow-label';
+        labelDiv.innerHTML = conn.label;
+        labelDiv.title = `Flow from ${conn.from} to ${conn.to}`;
+        labelDiv.addEventListener('click', () => {
+          focusScreen(conn.to);
+        });
+
+        foreign.appendChild(labelDiv);
+        svgLayer.appendChild(foreign);
+      });
+    }
+
+    function toggleFlowFilter(cat) {
+      activeFilter = cat;
+      document.querySelectorAll('.figma-tools .btn-tool').forEach(b => {
+        if (b.id && b.id.includes('btn-toggle-')) {
+          b.classList.remove('active');
+        }
+      });
+
+      if (cat === 'all') document.getElementById('btn-toggle-all-flows').classList.add('active');
+      if (cat === 'scroll') document.getElementById('btn-toggle-scroll-flows').classList.add('active');
+      if (cat === 'nav') document.getElementById('btn-toggle-nav-flows').classList.add('active');
+      if (cat === 'modals') document.getElementById('btn-toggle-modal-flows').classList.add('active');
+
+      renderAllConnectors();
+    }
+
+    // Initialize connectors after load
+    window.addEventListener('load', () => {
+      renderAllConnectors();
+    });
+  </script>
+</body>
+</html>
